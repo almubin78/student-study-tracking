@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 const Timer = ({ onTimeUp }) => {
-  const [time, setTime] = useState(20); // ৩ মিনিট (180 সেকেন্ড)
+  const [time, setTime] = useState(5); // ৩ মিনিট (180 সেকেন্ড)
 
   useEffect(() => {
     // এখানে আমরা টাইমার শুরু করছি একবার

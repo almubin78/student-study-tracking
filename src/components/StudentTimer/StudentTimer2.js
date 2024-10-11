@@ -21,17 +21,29 @@ const StudentTimer2 = () => {
     // Function to select a random student who hasn't answered yet
     const selectRandomStudent = () => {
         const batchStudents = studentsData[selectedBatch];
-        const unAnsweredStudents = batchStudents.filter(student => !answeredStudents.includes(student.name));
+
+        // Filter out already answered students
+        const unAnsweredStudents = batchStudents.filter(
+            (student) => !answeredStudents.includes(student.name)
+        );
+        console.log('%cunAnsweredStudents', 'border:2px solid red', unAnsweredStudents);
 
         // If no students left to answer, end the session
         if (unAnsweredStudents.length === 0) {
+            console.log('%cunAnsweredStudents.length===0', 'border:2px solid green', unAnsweredStudents.length);
             setSessionFinished(true); // Set session as finished
             setSessionStarted(false); // Stop the session
             return;
         }
+        console.log('%cunAnsweredStudents.length==!0', 'border:2px solid green', unAnsweredStudents.length);
 
+        // Randomly select a student who hasn't answered yet
         const randomStudent = unAnsweredStudents[Math.floor(Math.random() * unAnsweredStudents.length)];
-        setCurrentStudent(randomStudent);
+        console.log('%crandomStudent', 'border:2px solid green', randomStudent);
+        // Make sure current student isn't in the answeredStudents array
+        if (!answeredStudents.includes(randomStudent.name)) {
+            setCurrentStudent(randomStudent);
+        }
     };
 
     // Function to select 5 random questions
@@ -65,20 +77,27 @@ const StudentTimer2 = () => {
 
     // Handle what happens when time is up for the current student
     const handleTimeUp = () => {
-        if (sessionTime > 180) {
-            setSessionTime((prevTime) => prevTime - 180);
+        if (sessionTime > 5) {
+
+            setSessionTime((prevTime) => {
+                console.log(sessionTime, '===session Time');
+                return prevTime - 5
+            });
+
             if (currentStudent) {
-                // Check if the student has already answered before adding to the answeredStudents list
+                // Ensure the student is not already in the list
                 if (!answeredStudents.includes(currentStudent.name)) {
                     setAnsweredStudents((prev) => [...prev, currentStudent.name]);
                     assignNewTask(currentStudent);
                 }
             }
+
             selectRandomStudent(); // Select the next student who hasn't answered
-            selectRandomQuestions();
-            setTimerKey((prevKey) => prevKey + 1);
+            selectRandomQuestions(); // Get new random questions for the next student
+            setTimerKey((prevKey) => prevKey + 1); // Force timer rerender
+            console.log(timerKey, '==timer key');
         } else {
-            setSessionTime(0);
+            setSessionTime(200);
         }
     };
 
@@ -103,14 +122,14 @@ const StudentTimer2 = () => {
 
     // Handle stop/reset functionality
     const handleStop = () => {
-        setSessionStarted(false);
+        // setSessionStarted(false);
         setIsPaused(false);
-        setSessionTime(2400); // Reset time
+        // setSessionTime(2400); // Reset time
         setCurrentStudent(null);
         setCurrentQuestions([]);
         setTimerKey((prevKey) => prevKey + 1); // Reset timer key
-        setAnsweredStudents([]); // Clear answered students
-        setNewTasks([]); // Clear tasks
+        // setAnsweredStudents([]); // Clear answered students
+        // setNewTasks([]); // Clear tasks
         setSessionFinished(false); // Reset session finished
     };
 
@@ -135,79 +154,8 @@ const StudentTimer2 = () => {
                     </button>
                 </div>
             ) : sessionFinished ? (
-                <h2 className="text-2xl font-bold text-green-600">Session Finished</h2>
-            ) : sessionTime > 0 ? (
-                <div className="space-y-6">
-                    <h2 className="text-xl font-bold">
-                        Current Student: {currentStudent ? (
-                            <div className="flex items-center">
-                                <img src={currentStudent.imgLink} alt="img not found" className="w-16 h-16 rounded-full mr-4" />
-                                {currentStudent.name}
-                            </div>
-                        ) : 'Loading...'}
-                    </h2>
-
-                    <Timer key={timerKey} onTimeUp={handleTimeUp} sessionTime={isPaused ? sessionTime : sessionTime} />
-                    <QuestionPanel questions={currentQuestions} />
-
-                    <div className="flex space-x-4">
-                        <button
-                            className="bg-yellow-500 text-white font-bold py-2 px-4 rounded"
-                            onClick={handlePause}
-                        >
-                            {isPaused ? 'Resume' : 'Pause'}
-                        </button>
-                        <button
-                            className="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                            onClick={handleStop}
-                        >
-                            Stop
-                        </button>
-                    </div>
-
-
-                    {/* <h3 className="text-lg font-bold mt-6">Answered Students:</h3> 
-                     <ul className="list-disc pl-5 space-y-2">
-                        {answeredStudents.filter((student, index, self) => self.indexOf(student) === index).map((student, index) => (
-                            <li key={index} className="text-green-600">
-                                {student}
-                            </li>
-                        ))}
-                    </ul> */}
-                    {/* <h3 className="text-lg font-bold mt-6">Answered Students:</h3>
-                    <table className="min-w-full table-auto bg-white shadow-lg rounded-lg">
-                        <thead>
-                            <tr className="bg-gray-100 text-left">
-                                <th className="px-4 py-2">Image</th>
-                                <th className="px-4 py-2">Name</th>
-                                <th className="px-4 py-2">Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {answeredStudents
-                                .filter((student, index, self) => self.indexOf(student) === index)
-                                .map((student, index) => {
-                                    // Assuming each student has an image and score property
-                                    const studentObj = studentsData.find(s => s.name === student); // Get student details
-                                    return (
-                                        <tr key={index} className="border-t border-gray-200">
-                                            <td className="px-4 py-2">
-                                                <img
-                                                    src={studentObj?.imgLink || 'default.jpg'}
-                                                    alt={studentObj?.name}
-                                                    className="w-10 h-10 rounded-full"
-                                                />
-                                            </td>
-                                            <td className="px-4 py-2">{studentObj?.name || 'N/A'}</td>
-                                            <td className="px-4 py-2 text-green-600">
-                                                {studentObj?.score || '0'} pts
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table> */}
-
+                <>
+                    <h2 className="text-2xl font-bold text-green-600">Session Finished</h2>
                     <h3 className="text-lg font-bold mt-6">Answered Students:</h3>
                     <table className="min-w-full table-auto bg-white shadow-lg rounded-lg">
                         <thead>
@@ -219,16 +167,12 @@ const StudentTimer2 = () => {
                         </thead>
                         <tbody>
                             {answeredStudents
-                                .filter((student, index, self) => self.indexOf(student) === index)
+                                .filter((student, index, self) => self.indexOf(student) === index) // Ensuring no duplicates
                                 .map((student, index) => {
-                                    // Access the batch students
                                     const batchStudents = studentsData[selectedBatch] || [];
-                                    // Find the current student from the batch
                                     const studentObj = batchStudents.find(s => s.name === student);
 
-                                    if (!studentObj) {
-                                        return null; // In case studentObj is undefined, return null to avoid rendering errors
-                                    }
+                                    if (!studentObj) return null;
 
                                     return (
                                         <tr key={index} className="border-t border-gray-200">
@@ -249,24 +193,103 @@ const StudentTimer2 = () => {
                         </tbody>
                     </table>
 
-                    {/* <h3 className="text-lg font-bold mt-6">New Tasks:</h3> */}
-                    {/* <ul className="list-disc pl-5 space-y-2">
+                    <h3 className="text-lg font-bold mt-6">New Tasks:</h3>
+                    <div className="bg-white shadow-md rounded-lg p-4">
                         {newTasks
                             .filter((taskObj, index, self) => self.findIndex(t => t.student === taskObj.student) === index)
-                            .map((taskObj, index) => (
-                                <li key={index} className="text-blue-600">
-                                    <strong>{taskObj.student}:</strong>
-                                    <ul className="pl-4">
-                                        {taskObj.tasks.map((task, idx) => (
-                                            <li key={idx} className="text-blue-400">
-                                                {task}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ))
-                        }
-                    </ul> */}
+                            .map((taskObj, index) => {
+                                // Access the batch students
+                                const batchStudents = studentsData[selectedBatch] || [];
+                                // Find the student in the batch
+                                const studentObj = batchStudents.find(s => s.name === taskObj.student);
+
+                                return (
+                                    <div key={index} className="border-b border-gray-200 py-4">
+                                        <h4 className="text-blue-600 font-semibold">
+                                            {studentObj?.name || 'N/A'}
+                                        </h4>
+                                        <ul className="list-disc pl-5 mt-2 space-y-2">
+                                            {taskObj.tasks.map((task, idx) => (
+                                                <li key={idx} className="text-blue-400">
+                                                    {task}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            })}
+                    </div>
+                </>
+            ) : sessionTime >= 0 ? (
+                <div className="space-y-6">
+                    <h2 className="text-xl font-bold">
+                        Current Student: {currentStudent ? (
+                            <div className="flex items-center">
+                                <img src={currentStudent.imgLink} alt="img not found" className="w-16 h-16 rounded-full mr-4" />
+                                {currentStudent.name}
+                            </div>
+                        ) : 'Loading...'}
+                    </h2>
+
+                    <div className='fixed top-20 right-0 w-48 h-auto p-4 bg-white shadow-lg rounded-lg'>
+                        <Timer key={timerKey} onTimeUp={handleTimeUp} sessionTime={isPaused ? sessionTime : sessionTime} />
+                    </div>
+                    <QuestionPanel questions={currentQuestions} />
+
+                    <div className="flex space-x-4">
+                        {/* <button
+                            className="bg-yellow-500 text-white font-bold py-2 px-4 rounded"
+                            onClick={handlePause}
+                        >
+                            {isPaused ? 'Resume' : 'Pause'}
+                        </button> */}
+                        <button
+                            className="bg-red-500 text-white font-bold py-2 px-4 rounded"
+                            onClick={handleStop}
+                        >
+                            Stop
+                        </button>
+                    </div>
+
+
+
+                    <h3 className="text-lg font-bold mt-6">Answered Students:</h3>
+                    <table className="min-w-full table-auto bg-white shadow-lg rounded-lg">
+                        <thead>
+                            <tr className="bg-gray-100 text-left">
+                                <th className="px-4 py-2">Image</th>
+                                <th className="px-4 py-2">Name</th>
+                                <th className="px-4 py-2">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {answeredStudents
+                                .filter((student, index, self) => self.indexOf(student) === index) // Ensuring no duplicates
+                                .map((student, index) => {
+                                    const batchStudents = studentsData[selectedBatch] || [];
+                                    const studentObj = batchStudents.find(s => s.name === student);
+
+                                    if (!studentObj) return null;
+
+                                    return (
+                                        <tr key={index} className="border-t border-gray-200">
+                                            <td className="px-4 py-2">
+                                                <img
+                                                    src={studentObj.imgLink || 'default.jpg'}
+                                                    alt={studentObj.name}
+                                                    className="w-10 h-10 rounded-full"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">{studentObj.name}</td>
+                                            <td className="px-4 py-2 text-green-600">
+                                                {studentObj.score || '0'} pts
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>
+
                     <h3 className="text-lg font-bold mt-6">New Tasks:</h3>
                     <div className="bg-white shadow-md rounded-lg p-4">
                         {newTasks
