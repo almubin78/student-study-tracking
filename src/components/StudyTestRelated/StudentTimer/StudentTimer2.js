@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import studentsData from '../../data/studentsData';
-import questionsData from '../../data/questionsData';
-import Timer from '../Timer';
-import QuestionPanel from '../questions/QuestionPanel';
+import React, { useState } from 'react';
+import studentsData from '../../../data/studentsData';
+import questionsData from '../../../data/questionsData';
+import additionalTasks from '../../../data/additionalTasks';
 import BatchSelector from '../BatchSelector/BatchSelector';
-import additionalTasks from '../../data/additionalTasks';
-import SessionFinished from './SessionFinised/SessionFinished';
+import QuestionPanel from '../QuestionsComponent/QuestionPanel';
+import Timer from './Timer';
+
 // import NewTasks from './NewTasks/NewTasks';
 
 const StudentTimer2 = () => {
