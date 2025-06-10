@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // animation: {
+      //   spin: 'spin 1s linear infinite', // Default spin
+      //   'spin-slow': 'spin 3s linear infinite', // Slower spin
+      // },
+    },
   },
   plugins: [],
 }

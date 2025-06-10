@@ -2,14 +2,14 @@
 import React from 'react';
 
 const BatchSelector = ({ onSelectBatch }) => {
-  const handleSelect = (event) => {
+  const handleSelectBatch = (event) => {
     onSelectBatch(event.target.value);
   };
 
   return (
     <div className="batch-selector">
       <label htmlFor="batch">Select Batch:</label>
-      <select id="batch" onChange={handleSelect}>
+      <select id="batch" onChange={handleSelectBatch}>
         <option value="">--Select a Batch--</option>
         <option value="HSC">HSC</option>
         <option value="Eight">Eight</option>

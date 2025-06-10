@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 
 const Timer = ({ onTimeUp }) => {
-  const [time, setTime] = useState(5); // ৩ মিনিট (180 সেকেন্ড)
-
+  const [time, setTime] = useState(3); // ৩ মিনিট (180 সেকেন্ড)
+  
   useEffect(() => {
     // এখানে আমরা টাইমার শুরু করছি একবার
     const timer = setInterval(() => {
@@ -21,8 +21,9 @@ const Timer = ({ onTimeUp }) => {
   }, []); // খেয়াল করুন এখানে [] ডিপেন্ডেন্সি যুক্ত করা হয়েছে
 
   return (
-    <div className="timer">
-      <h2>{`Time Left: ${Math.floor(time / 60)}:${time % 60 < 10 ? '0' : ''}${time % 60}`}</h2>
+    <div className="timer bg-transparent">
+      <p>Time Left:</p>
+      <h2 className='text-purple-600 font-extrabold text-6xl text-center mb-4'>{` ${Math.floor(time / 60)}:${time % 60 < 10 ? '0' : ''}${time % 60}`}</h2>
     </div>
   );
 };
