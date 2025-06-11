@@ -1,5 +1,5 @@
 // src/data/studentsData.js
-const studentsData = {
+export const studentsData = {
     HSC: [
       { id: 1, name: "Md Borhan Mondol", imgLink: "https://i.ibb.co/KDhg3v7/borhan-2.png" },
       { id: 2, name: "Maliha Momtaz Luba", imgLink: "https://i.ibb.co/C1zf4ZN/luba2.png" },
@@ -27,5 +27,5 @@ const studentsData = {
     ],
   };
   
-  export default studentsData;
+
   

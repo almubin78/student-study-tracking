@@ -1,31 +1,45 @@
-// src/components/Timer.js
 import React, { useEffect, useState } from 'react';
 
-const Timer = ({ onTimeUp }) => {
-  const [time, setTime] = useState(3); // ৩ মিনিট (180 সেকেন্ড)
-  
-  useEffect(() => {
-    // এখানে আমরা টাইমার শুরু করছি একবার
-    const timer = setInterval(() => {
-      setTime((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer); // টাইমার বন্ধ করা হচ্ছে যখন এটি শেষ হবে
-          onTimeUp();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+const Timer = ({ initialTime, onTimeUp, isPaused }) => {
+    const [time, setTime] = useState(initialTime);
+    
+    useEffect(() => {
+        setTime(initialTime);
+    }, [initialTime]);
 
-    return () => clearInterval(timer); // ক্লিনআপ ফাংশন
-  }, []); // খেয়াল করুন এখানে [] ডিপেন্ডেন্সি যুক্ত করা হয়েছে
+    useEffect(() => {
+        if (isPaused) return;
+        
+        const timer = setInterval(() => {
+            setTime((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    onTimeUp();
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
 
-  return (
-    <div className="timer bg-transparent">
-      <p>Time Left:</p>
-      <h2 className='text-purple-600 font-extrabold text-6xl text-center mb-4'>{` ${Math.floor(time / 60)}:${time % 60 < 10 ? '0' : ''}${time % 60}`}</h2>
-    </div>
-  );
+        return () => clearInterval(timer);
+    }, [isPaused, onTimeUp]);
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    return (
+        <div className="timer text-center">
+            <p className="text-gray-600 mb-1">Time Remaining</p>
+            <h2 className={`text-6xl font-bold ${
+                time <= 10 ? 'text-red-500' : 'text-blue-500'
+            }`}>
+                {formatTime(time)}
+            </h2>
+        </div>
+    );
 };
 
 export default Timer;
