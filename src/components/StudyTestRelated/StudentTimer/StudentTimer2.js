@@ -4,15 +4,11 @@ import additionalTasks from '../../../data/additionalTasks';
 import BatchSelector from '../BatchSelector/BatchSelector';
 import QuestionPanel from '../QuestionsComponent/QuestionPanel';
 import Timer from './Timer';
-import { Link } from 'react-router-dom';
-import { studentsData } from '../../../data/studentsData'; // Importing students data
-
+import { studentsData } from '../../../data/studentsData';
 
 const StudentTimer2 = () => {
-    
     const [selectedBatch, setSelectedBatch] = useState('');
     const [currentQuestions, setCurrentQuestions] = useState([]);
-    const [inputTime, setInputTime] = useState(2400);
     const [sessionTime, setSessionTime] = useState(2400);
     const [timerKey, setTimerKey] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -34,9 +30,9 @@ const StudentTimer2 = () => {
     const selectRandomStudent = () => {
         if (!batchStudents.length) return;
 
-        // Filter out already answered students
+        // Filter out already answered students using student ID for more reliable comparison
         const unAnsweredStudents = batchStudents.filter(
-            student => !answeredStudents.some(s => s.name === student.name)
+            student => !answeredStudents.some(s => s.id === student.id)
         );
 
         // If no students left to answer, end the session
@@ -72,17 +68,20 @@ const StudentTimer2 = () => {
     const handleTimeUp = () => {
         if (!currentStudent) return;
 
-        // Mark current student as answered
-        if (!answeredStudents.some(s => s.name === currentStudent.name)) {
-            setAnsweredStudents(prev => [...prev, currentStudent]);
-            
-            // Assign tasks to the student
-            const tasks = assignRandomTasks();
-            setNewTasks(prev => [
-                ...prev,
-                { student: currentStudent.name, tasks }
-            ]);
-        }
+        // Mark current student as answered only if not already answered
+        setAnsweredStudents(prev => {
+            const alreadyAnswered = prev.some(s => s.id === currentStudent.id);
+            if (!alreadyAnswered) {
+                // Assign tasks to the student
+                const tasks = assignRandomTasks();
+                setNewTasks(prevTasks => [
+                    ...prevTasks,
+                    { student: currentStudent.name, tasks }
+                ]);
+                return [...prev, currentStudent];
+            }
+            return prev;
+        });
 
         // Continue session if there's time left
         if (sessionTime > 5) {
@@ -110,12 +109,17 @@ const StudentTimer2 = () => {
         setSessionFinished(false);
         setSessionStarted(true);
         setIsPaused(false);
-        setSessionTime(inputTime);
+        setSessionTime(2400);
         
         // Select first student and questions
         selectRandomStudent();
         selectRandomQuestions();
     };
+
+    // Filter out duplicate students (extra protection)
+    const uniqueAnsweredStudents = answeredStudents.filter((student, index, self) => 
+        index === self.findIndex(s => s.id === student.id)
+    );
 
     return (
         <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
@@ -134,13 +138,12 @@ const StudentTimer2 = () => {
                 <div className="text-center">
                     <h2 className="text-2xl font-bold text-green-600 mb-4">Session Completed!</h2>
                     <p>All students have answered.</p>
-                    {/* <Link to="/study-test" className="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition">
-                        Start New Session
-                    </Link> */}
-                    <button  onClick={handleStartSession} className="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition">
+                    <button 
+                        onClick={handleStartSession} 
+                        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
+                    >
                         Restart Session
-
-                </button>
+                    </button>
                 </div> 
             ) : sessionTime >= 0 && currentStudent ? (
                 <div className="space-y-6">
@@ -170,8 +173,8 @@ const StudentTimer2 = () => {
                         <div className="bg-white shadow-md rounded-lg p-4">
                             <h3 className="text-lg font-bold mb-4">Answered Students:</h3>
                             <div className="overflow-y-auto max-h-64">
-                                {answeredStudents.map((student, index) => (
-                                    <div key={index} className="flex items-center py-2 border-b border-gray-100">
+                                {uniqueAnsweredStudents.map((student, index) => (
+                                    <div key={student.id} className="flex items-center py-2 border-b border-gray-100">
                                         <img
                                             src={student.imgLink}
                                             alt={student.name}
