@@ -167,7 +167,7 @@ const StudentTimer2 = () => {
                         />
                     </div>
 
-                    {/* <QuestionPanel questions={currentQuestions} /> */}
+                    <QuestionPanel questions={currentQuestions} />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="bg-white shadow-md rounded-lg p-4">
