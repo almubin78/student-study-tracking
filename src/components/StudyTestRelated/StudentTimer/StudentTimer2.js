@@ -3,8 +3,8 @@ import questionsData from '../../../data/questionsData';
 import additionalTasks from '../../../data/additionalTasks';
 import BatchSelector from '../BatchSelector/BatchSelector';
 import QuestionPanel from '../QuestionsComponent/QuestionPanel';
-import Timer from './Timer';
 import { studentsData } from '../../../data/studentsData';
+import Timer from '../Timer/Timer';
 
 const StudentTimer2 = () => {
     const [selectedBatch, setSelectedBatch] = useState('');
@@ -159,7 +159,7 @@ const StudentTimer2 = () => {
                                 <p className='text-gray-500'>{selectedBatch} Batch</p>
                             </div>
                         </div>
-                        <Timer 
+                        <Timer
                             key={timerKey} 
                             initialTime={5} 
                             onTimeUp={handleTimeUp} 
@@ -167,7 +167,7 @@ const StudentTimer2 = () => {
                         />
                     </div>
 
-                    <QuestionPanel questions={currentQuestions} />
+                    {/* <QuestionPanel questions={currentQuestions} /> */}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="bg-white shadow-md rounded-lg p-4">
