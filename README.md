@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Explanation of ``` selectRandomStudent``` Function 
+ This function is responsible for selecting a random student from the current batch who hasn't answered any questions yet. Here's a detailed breakdown:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+###
+<h2 style="text-align:center; color:green">  1. Function Purpose</h2>
 
-## Available Scripts
+```
+const selectRandomStudent = () => {
+```
 
-In the project directory, you can run:
+This function selects a random student who hasn't participated yet, ensuring fair participation in the session.
 
-### `npm start`
+### 
+ <h2 style="text-align:center; color:green"> 2. Early Exit if No Students</h2>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+if (!batchStudents.length) return;
+```
+* Checks if there are any students in the current batch
 
-### `npm test`
+* Returns immediately if the batch is empty (defensive programming)
+###
+<h2 style="text-align:center; color:green"> 3. Filtering Unanswered Students </h2>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+const unAnsweredStudents = batchStudents.filter(
+  (student) => !answeredStudents.some((s) => s.id === student.id)
+);
+```
+* Takes the full list of batch students
 
-### `npm run build`
+* Filters out any students who are already in the answeredStudents array
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Uses student id for comparison (more reliable than names)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* Creates a new array containing only students who haven't answered
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 
+<h2 style="text-align:center; color:green"> 4. Session Completion Check </h2>
 
-### `npm run eject`
+```
+if (unAnsweredStudents.length === 0) {
+  setSessionFinished(true);
+  setSessionStarted(false);
+  return;
+}
+```
+* Checks if there are no un-answered students left
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* If true:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* * Marks session as finished (setSessionFinished(true))
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* * Stops the active session (setSessionStarted(false))
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* * Exits the function early
 
-## Learn More
+### 
+<h2 style="text-align:center; color:green">5. Random Student Selection  </h2>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
+const randomStudent = unAnsweredStudents[randomIndex];
+```
+* Generates a random index between 0 and length of un-answered students
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Math.random() generates a number between 0 (inclusive) and 1 (exclusive)
 
-### Code Splitting
+* Math.floor() rounds down to the nearest integer
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Selects the student at that random index
 
-### Analyzing the Bundle Size
+### 
+<h2 style="text-align:center; color:green"> 6. Updating Current Student</h2>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+setCurrentStudent(randomStudent);
+```
+* Sets the selected random student as the current active student
 
-### Making a Progressive Web App
+* Triggers React's state update and re-render
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### 
+<h2 style="text-align:center; color:pink"> Key Features</h2>
 
-### Advanced Configuration
+1. Fair Selection: Only picks from students who haven't answered
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. Id-Based Comparison: Uses student IDs instead of names to avoid duplicates
 
-### Deployment
+3. Automatic Session End: Handles completion when all students have answered
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+4. Defensive Programming: Handles empty batches gracefully
 
-### `npm run build` fails to minify
+#### 
+<h2 style="text-align:center; color:pink"> Example Flow</h2>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Batch has students: Alice(id:1), Bob(id:2), Charlie(id:3)
+
+2. Alice has answered (in answeredStudents array)
+
+3. Function filters to [Bob, Charlie]
+
+4. Randomly selects one (e.g., Charlie)
+
+5. Sets Charlie as current student
+
+* * This ensures every student gets a turn before any repeats occur.

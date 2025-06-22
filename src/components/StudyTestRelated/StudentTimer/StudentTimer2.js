@@ -152,25 +152,7 @@ const StudentTimer2 = () => {
         </div>
       ) : sessionTime >= 0 && currentStudent ? (
         <div className="space-y-6">
-          {/* <div className='fixed top-20 right-0 w-1/3 h-auto p-6 bg-white shadow-xl rounded-lg border border-gray-200'>
-                        <div className='flex items-center justify-center mb-4'>
-                            <img 
-                                src={currentStudent.imgLink} 
-                                alt={currentStudent.name} 
-                                className="w-16 h-16 rounded-full mr-4 border-2 border-blue-500"
-                            />
-                            <div>
-                                <h3 className='text-xl font-bold text-gray-700'>{currentStudent.name}</h3>
-                                <p className='text-gray-500'>{selectedBatch} Batch</p>
-                            </div>
-                        </div>
-                        <Timer
-                            key={timerKey} 
-                            initialTime={5} 
-                            onTimeUp={handleTimeUp} 
-                            isPaused={isPaused}
-                        />
-                    </div> */}
+         {/* rendered students and timer */}
           <div
             key={`student-panel-${currentStudent.id}`} // Add unique key to force re-render
             className="fixed top-20 right-0 w-1/3 h-auto p-6 bg-white shadow-xl rounded-lg border border-gray-200"
