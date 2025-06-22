@@ -1,8 +1,35 @@
-# Explanation of ``` selectRandomStudent``` Function 
+# Explanation 
+### Code
+
+```
+  // Function to select a random student who hasn't answered yet
+  const selectRandomStudent = () => {
+    if (!batchStudents.length) return;
+
+    // Filter out already answered students using student ID for more reliable comparison
+    const unAnsweredStudents = batchStudents.filter(
+      (student) => !answeredStudents.some((s) => s.id === student.id)
+    );
+
+    // If no students left to answer, end the session
+    if (unAnsweredStudents.length === 0) {
+      setSessionFinished(true);
+      setSessionStarted(false);
+      return;
+    }
+
+    // Randomly select a student who hasn't answered yet
+    const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
+    const randomStudent = unAnsweredStudents[randomIndex];
+
+    setCurrentStudent(randomStudent);
+  };
+```
+ ## ``` selectRandomStudent``` Function 
  This function is responsible for selecting a random student from the current batch who hasn't answered any questions yet. Here's a detailed breakdown:
 
 ###
-<h2 style="text-align:center; color:green">  1. Function Purpose</h2>
+<h3 style="text-align:center; color:green">  1. Function Purpose</h3>
 
 ```
 const selectRandomStudent = () => {
@@ -11,7 +38,7 @@ const selectRandomStudent = () => {
 This function selects a random student who hasn't participated yet, ensuring fair participation in the session.
 
 ### 
- <h2 style="text-align:center; color:green"> 2. Early Exit if No Students</h2>
+ <h3 style="text-align:center; color:green"> 2. Early Exit if No Students</h3>
 
 ```
 
@@ -21,7 +48,7 @@ if (!batchStudents.length) return;
 
 * Returns immediately if the batch is empty (defensive programming)
 ###
-<h2 style="text-align:center; color:green"> 3. Filtering Unanswered Students </h2>
+<h3 style="text-align:center; color:green"> 3. Filtering Unanswered Students </h3>
 
 ```
 const unAnsweredStudents = batchStudents.filter(
@@ -37,7 +64,7 @@ const unAnsweredStudents = batchStudents.filter(
 * Creates a new array containing only students who haven't answered
 
 ### 
-<h2 style="text-align:center; color:green"> 4. Session Completion Check </h2>
+<h3 style="text-align:center; color:green"> 4. Session Completion Check </h3>
 
 ```
 if (unAnsweredStudents.length === 0) {
@@ -57,7 +84,7 @@ if (unAnsweredStudents.length === 0) {
 * * Exits the function early
 
 ### 
-<h2 style="text-align:center; color:green">5. Random Student Selection  </h2>
+<h3 style="text-align:center; color:green">5. Random Student Selection  </h3>
 
 ```
 const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
@@ -72,7 +99,7 @@ const randomStudent = unAnsweredStudents[randomIndex];
 * Selects the student at that random index
 
 ### 
-<h2 style="text-align:center; color:green"> 6. Updating Current Student</h2>
+<h3 style="text-align:center; color:green"> 6. Updating Current Student</h3>
 
 ```
 setCurrentStudent(randomStudent);
@@ -82,7 +109,7 @@ setCurrentStudent(randomStudent);
 * Triggers React's state update and re-render
 
 #### 
-<h2 style="text-align:center; color:pink"> Key Features</h2>
+<h4 style="text-align:center; color:pink"> Key Features</h4>
 
 1. Fair Selection: Only picks from students who haven't answered
 
@@ -93,7 +120,7 @@ setCurrentStudent(randomStudent);
 4. Defensive Programming: Handles empty batches gracefully
 
 #### 
-<h2 style="text-align:center; color:pink"> Example Flow</h2>
+<h4 style="text-align:center; color:pink"> Example Flow</h4>
 
 1. Batch has students: Alice(id:1), Bob(id:2), Charlie(id:3)
 
