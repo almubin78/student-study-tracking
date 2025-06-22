@@ -144,7 +144,18 @@ const StudentTimer2 = () => {
           </h2>
           <p>All students have answered.</p>
           <button
-            onClick={handleStartSession}
+            onClick={() => {
+              // Reset all necessary states in one go
+              setAnsweredStudents([]);
+              setNewTasks([]);
+              setCurrentStudent(null);
+              setSessionFinished(false);
+              setSessionStarted(true);
+              setIsPaused(false);
+              setSessionTime(2400);
+              selectRandomStudent();
+              selectRandomQuestions();
+            }}
             className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
           >
             Restart Session
@@ -179,6 +190,7 @@ const StudentTimer2 = () => {
           </div>
 
           <QuestionPanel questions={currentQuestions} />
+
           {/* Display Answered Students in reverse way */}
           <div className="bg-white shadow-md rounded-lg p-4">
             <h3 className="text-lg font-bold mb-4">Answered Students:</h3>
@@ -205,8 +217,6 @@ const StudentTimer2 = () => {
                 ))}
             </div>
           </div>
-          
-          
 
           <div className="flex justify-center space-x-4 mt-6">
             <button
@@ -220,8 +230,19 @@ const StudentTimer2 = () => {
               {isPaused ? "Resume" : "Pause"}
             </button>
             <button
-              onClick={handleStartSession}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium"
+              onClick={() => {
+                // Reset all necessary states in one go
+                setAnsweredStudents([]);
+                setNewTasks([]);
+                setCurrentStudent(null);
+                setSessionFinished(false);
+                setSessionStarted(true);
+                setIsPaused(false);
+                setSessionTime(2400);
+                selectRandomStudent();
+                selectRandomQuestions();
+              }}
+              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
             >
               Restart Session
             </button>
