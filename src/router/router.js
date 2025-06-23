@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorElement from "../components/ErrorElement";
 import Root from "../components/Root";
-import StudentTimer2 from "../components/StudyTestRelated/StudentTimer/StudentTimer2";
-import StudyTestHome from "../components/StudyTestRelated/StudentTimer/StudyTestHome";
+import StudentTimer2 from "../components/StudyTestRelated/StudentTimer2";
+import StudyTestHome from "../components/StudyTestRelated/StudyTestHome";
 
 const router = createBrowserRouter([
   {

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import questionsData from "../../../data/questionsData";
-import additionalTasks from "../../../data/additionalTasks";
-import BatchSelector from "../BatchSelector/BatchSelector";
-import QuestionPanel from "../QuestionsComponent/QuestionPanel";
-import { studentsData } from "../../../data/studentsData";
-import Timer from "../Timer/Timer";
+
+
+import { studentsData } from "../../data/studentsData";
+import questionsData from "../../data/questionsData";
+import additionalTasks from "../../data/additionalTasks";
+import BatchSelector from "./BatchSelector/BatchSelector";
+import QuestionPanel from "./QuestionsComponent/QuestionPanel";
+import Timer from "./Timer/Timer";
 
 const StudentTimer2 = () => {
   // State to hold selected batch and its students
