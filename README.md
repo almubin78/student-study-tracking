@@ -1,135 +1,62 @@
-# Explanation 
-### Code
 
-```
-  // Function to select a random student who hasn't answered yet
-  const selectRandomStudent = () => {
-    if (!batchStudents.length) return;
+<h3 style="text-align:center; font-size:35px; color:pink"> Key Features:</h3>
+<hr/>
+<h3 style=" font-size:35px; color:green"> 1. Dynamic Time Limit Selection</h3>
+<hr/>
 
-    // Filter out already answered students using student ID for more reliable comparison
-    const unAnsweredStudents = batchStudents.filter(
-      (student) => !answeredStudents.some((s) => s.id === student.id)
-    );
+* Added a state variable studentTimeLimit (default: 5 seconds)
 
-    // If no students left to answer, end the session
-    if (unAnsweredStudents.length === 0) {
-      setSessionFinished(true);
-      setSessionStarted(false);
-      return;
-    }
+* A dropdown selector to choose time per student (5s to 1min)
 
-    // Randomly select a student who hasn't answered yet
-    const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
-    const randomStudent = unAnsweredStudents[randomIndex];
+* Passed studentTimeLimit to the Timer component
 
-    setCurrentStudent(randomStudent);
-  };
-```
- ## ``` selectRandomStudent``` Function 
- This function is responsible for selecting a random student from the current batch who hasn't answered any questions yet. Here's a detailed breakdown:
 
-###
-<h3 style="text-align:center; color:green">  1. Function Purpose</h3>
+<h3 style=" font-size:35px; color:green">2. Vertical Batch Selector </h3>
 
-```
-const selectRandomStudent = () => {
-```
+* Added a collapsible side panel for batch selection
 
-This function selects a random student who hasn't participated yet, ensuring fair participation in the session.
+* Positioned a toggle button on the left edge of the screen
 
-### 
- <h3 style="text-align:center; color:green"> 2. Early Exit if No Students</h3>
+* Included the time limit selector in the side panel
 
-```
+* Smooth animation when opening/closing
 
-if (!batchStudents.length) return;
-```
-* Checks if there are any students in the current batch
 
-* Returns immediately if the batch is empty (defensive programming)
-###
-<h3 style="text-align:center; color:green"> 3. Filtering Unanswered Students </h3>
+<h3 style=" font-size:35px; color:green">3. Enhanced UI Design</h3>
 
-```
-const unAnsweredStudents = batchStudents.filter(
-  (student) => !answeredStudents.some((s) => s.id === student.id)
-);
-```
-* Takes the full list of batch students
+* Cards Layout: Redesigned tasks and students sections as cards
 
-* Filters out any students who are already in the answeredStudents array
+* Visual Hierarchy: Improved typography and spacing
 
-* Uses student id for comparison (more reliable than names)
+* Responsive Grid: Side-by-side layout for larger screens
 
-* Creates a new array containing only students who haven't answered
+* Modern Styling: Added subtle shadows, rounded corners, and hover effects
 
-### 
-<h3 style="text-align:center; color:green"> 4. Session Completion Check </h3>
+* Count Badges: Added student/task counts in the headers
 
-```
-if (unAnsweredStudents.length === 0) {
-  setSessionFinished(true);
-  setSessionStarted(false);
-  return;
-}
-```
-* Checks if there are no un-answered students left
 
-* If true:
+<h3 style=" font-size:35px; color:green">4. Improved Task Display </h3>
 
-* * Marks session as finished (setSessionFinished(true))
+* Added left border accent for tasks
 
-* * Stops the active session (setSessionStarted(false))
+* Better spacing between task items
 
-* * Exits the function early
+* Clear visual distinction between different students' tasks
 
-### 
-<h3 style="text-align:center; color:green">5. Random Student Selection  </h3>
 
-```
-const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
-const randomStudent = unAnsweredStudents[randomIndex];
-```
-* Generates a random index between 0 and length of un-answered students
+<h3 style=" font-size:35px; color:green">5. Session Controls </h3>
 
-* Math.random() generates a number between 0 (inclusive) and 1 (exclusive)
+* Consolidated control buttons
 
-* Math.floor() rounds down to the nearest integer
+* Improved button styling and spacing
 
-* Selects the student at that random index
+* Clear visual feedback for actions
 
-### 
-<h3 style="text-align:center; color:green"> 6. Updating Current Student</h3>
 
-```
-setCurrentStudent(randomStudent);
-```
-* Sets the selected random student as the current active student
+<h3 style=" font-size:35px; color:green">6. Performance Optimizations </h3>
 
-* Triggers React's state update and re-render
+* Better key management for lists
 
-#### 
-<h4 style="text-align:center; color:pink"> Key Features</h4>
+* Optimized re-renders with proper state management
 
-1. Fair Selection: Only picks from students who haven't answered
-
-2. Id-Based Comparison: Uses student IDs instead of names to avoid duplicates
-
-3. Automatic Session End: Handles completion when all students have answered
-
-4. Defensive Programming: Handles empty batches gracefully
-
-#### 
-<h4 style="text-align:center; color:pink"> Example Flow</h4>
-
-1. Batch has students: Alice(id:1), Bob(id:2), Charlie(id:3)
-
-2. Alice has answered (in answeredStudents array)
-
-3. Function filters to [Bob, Charlie]
-
-4. Randomly selects one (e.g., Charlie)
-
-5. Sets Charlie as current student
-
-* * This ensures every student gets a turn before any repeats occur.
+* This implementation provides a more professional, user-friendly interface while maintaining all the original functionality. The vertical batch selector makes it easy to change settings during a session, and the dynamic time limit allows for flexible session configurations.
