@@ -7,17 +7,22 @@ import { studentsData } from "../../../data/studentsData";
 import Timer from "../Timer/Timer";
 
 const StudentTimer2 = () => {
+  // State to hold selected batch and its students
+  // Using useState to manage the selected batch and its students
   const [selectedBatch, setSelectedBatch] = useState("");
+  const [batchStudents, setBatchStudents] = useState([]);
+  // State to hold current questions, session time, timer key, pause state, current student, answered students, new tasks, session started and finished states
+  // Using useState to manage these states
   const [currentQuestions, setCurrentQuestions] = useState([]);
-  const [sessionTime, setSessionTime] = useState(2400);
-  const [timerKey, setTimerKey] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [newTasks, setNewTasks] = useState([]);
   const [currentStudent, setCurrentStudent] = useState(null);
   const [answeredStudents, setAnsweredStudents] = useState([]);
-  const [newTasks, setNewTasks] = useState([]);
+  // State to manage session time, session started and finished states
+  const [isPaused, setIsPaused] = useState(false);
+  const [timerKey, setTimerKey] = useState(0);
+  const [sessionTime, setSessionTime] = useState(2400);
   const [sessionStarted, setSessionStarted] = useState(false);
   const [sessionFinished, setSessionFinished] = useState(false);
-  const [batchStudents, setBatchStudents] = useState([]);
 
   // Update batch students when batch changes
   useEffect(() => {
@@ -182,18 +187,29 @@ const StudentTimer2 = () => {
               </div>
             </div>
             <Timer
-              key={`timer-${currentStudent.id}`} // Unique key for timer
+              // key={`timer-${currentStudent.id}`} // Unique key for timer
+              key={timerKey} // 
               initialTime={5}
               onTimeUp={handleTimeUp}
               isPaused={isPaused}
             />
           </div>
 
-          <QuestionPanel questions={currentQuestions} />
+          <div>
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Current Questions for{" "}
+              <span className="text-2xl bold text-pink-300">
+                {currentStudent.name}
+              </span>
+            </h2>
+            <QuestionPanel questions={currentQuestions} />
+          </div>
 
           {/* Display Answered Students in reverse way */}
           <div className="bg-white shadow-md rounded-lg p-4">
-            <h3 className="text-lg font-bold mb-4">Answered Students:</h3>
+            <h3 className="text-lg font-bold mb-4">
+              Answered Students:{currentStudent?.length}
+            </h3>
             <div className="overflow-y-auto max-h-64">
               {[...uniqueAnsweredStudents]
                 .reverse() // Reverse the array to show newest first
@@ -217,7 +233,39 @@ const StudentTimer2 = () => {
                 ))}
             </div>
           </div>
-
+          {/* Tasks for Answered questions*/}
+          <div className="bg-white shadow-md rounded-lg p-4">
+            <h3 className="text-lg font-bold mb-4">Assigned Tasks:</h3>
+            <div className="overflow-y-auto max-h-64">
+              {newTasks
+                // Remove duplicate students (keeping only the latest entry)
+                .filter(
+                  (taskObj, index, self) =>
+                    index ===
+                    self.findLastIndex((t) => t.student === taskObj.student)
+                )
+                // Reverse to show most recent first
+                .reverse()
+                .map((taskObj) => (
+                  <div
+                    key={taskObj.student}
+                    className="mb-4 border-b border-gray-100 pb-4"
+                  >
+                    <h4 className="font-semibold text-blue-600">
+                      {taskObj.student}
+                    </h4>
+                    <ul className="list-disc pl-5 mt-1">
+                      {taskObj.tasks.map((task, idx) => (
+                        <li key={idx} className="text-sm text-gray-700 py-1">
+                          {task}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+            </div>
+          </div>
+          {/* Toggle Resume and Pause button */}
           <div className="flex justify-center space-x-4 mt-6">
             <button
               onClick={() => setIsPaused(!isPaused)}
