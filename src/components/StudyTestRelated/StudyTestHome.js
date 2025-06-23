@@ -5,6 +5,8 @@ import additionalTasks from "../../data/additionalTasks";
 import BatchSelector from "./BatchSelector/BatchSelector";
 import QuestionPanel from "./QuestionsComponent/QuestionPanel";
 import Timer from "./Timer/Timer";
+import AnsweredStudents from "./AnsweredStudents/AnsweredStudents";
+import NewTasks from "./NewTasks/NewTasks";
 
 const StudyTestHome = () => {
   // State management
@@ -52,7 +54,9 @@ const StudyTestHome = () => {
   const selectRandomQuestions = () => {
     if (!selectedBatch || !questionsData[selectedBatch]) return;
     const batchQuestions = questionsData[selectedBatch];
-    const shuffledQuestions = [...batchQuestions].sort(() => 0.5 - Math.random());
+    const shuffledQuestions = [...batchQuestions].sort(
+      () => 0.5 - Math.random()
+    );
     setCurrentQuestions(shuffledQuestions.slice(0, 5));
   };
 
@@ -110,7 +114,8 @@ const StudyTestHome = () => {
 
   // Filter out duplicate students
   const uniqueAnsweredStudents = answeredStudents.filter(
-    (student, index, self) => index === self.findIndex((s) => s.id === student.id)
+    (student, index, self) =>
+      index === self.findIndex((s) => s.id === student.id)
   );
 
   return (
@@ -160,7 +165,9 @@ const StudyTestHome = () => {
       <div className={`transition-all ${showBatchSelector ? "ml-72" : "ml-0"}`}>
         {!sessionStarted && !sessionFinished ? (
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-blue-600 mb-8">Student Timer</h1>
+            <h1 className="text-3xl font-bold text-blue-600 mb-8">
+              Student Timer
+            </h1>
             <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
               <BatchSelector onSelectBatch={setSelectedBatch} />
               <div className="mt-4">
@@ -178,6 +185,7 @@ const StudyTestHome = () => {
                   <option value={20}>20 seconds</option>
                   <option value={30}>30 seconds</option>
                   <option value={60}>1 minute</option>
+                  <option value={120}>2 minute</option>
                 </select>
               </div>
               <button
@@ -206,24 +214,14 @@ const StudyTestHome = () => {
           <div className="space-y-6">
             {/* Student Timer Panel */}
             <div className="fixed top-4 right-4 w-80 bg-white shadow-2xl rounded-xl border border-gray-200 p-6 z-10">
-              <div className="flex items-center justify-center mb-4">
-                <img
-                  src={currentStudent.imgLink}
-                  alt={currentStudent.name}
-                  className="w-16 h-16 rounded-full mr-4 border-2 border-blue-500 object-cover"
-                />
-                <div>
-                  <h3 className="text-xl font-bold text-gray-700">
-                    {currentStudent.name}
-                  </h3>
-                  <p className="text-gray-500">{selectedBatch} Batch</p>
-                </div>
-              </div>
               <Timer
-                key={`timer-${currentStudent.id}-${timerKey}`}
-                initialTime={studentTimeLimit}
+                key={`timer-${currentStudent.id}`} // Unique key for timer
+                // key={timerKey} //
+                initialTime={5}
                 onTimeUp={handleTimeUp}
                 isPaused={isPaused}
+                currentStudent={currentStudent}
+                selectedBatch={selectedBatch}
               />
               <div className="flex justify-center space-x-4 mt-4">
                 <button
@@ -250,80 +248,15 @@ const StudyTestHome = () => {
 
             {/* Answered Students and Tasks - Side by Side */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-              {/* Answered Students */}
-              <div className="bg-white shadow-lg rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <span className="bg-blue-100 text-blue-800 p-2 rounded-full mr-2">
-                    {uniqueAnsweredStudents.length}
-                  </span>
-                  Answered Students
-                </h3>
-                <div className="overflow-y-auto max-h-96 space-y-3">
-                  {[...uniqueAnsweredStudents]
-                    .reverse()
-                    .map((student) => (
-                      <div
-                        key={student.id}
-                        className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition"
-                      >
-                        <img
-                          src={student.imgLink}
-                          alt={student.name}
-                          className="w-12 h-12 rounded-full mr-3 object-cover"
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-800">
-                            {student.name}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Score: {student.score || "0"} pts
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Assigned Tasks */}
-              <div className="bg-white shadow-lg rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <span className="bg-green-100 text-green-800 p-2 rounded-full mr-2">
-                    {newTasks.length}
-                  </span>
-                  Assigned Tasks
-                </h3>
-                <div className="overflow-y-auto max-h-96 space-y-4">
-                  {newTasks
-                    .filter(
-                      (taskObj, index, self) =>
-                        index ===
-                        self.findLastIndex((t) => t.student === taskObj.student)
-                    )
-                    .reverse()
-                    .map((taskObj) => (
-                      <div
-                        key={taskObj.student}
-                        className="border-l-4 border-blue-400 pl-4 py-2 bg-blue-50 rounded-r-lg"
-                      >
-                        <h4 className="font-semibold text-blue-700 flex items-center">
-                          <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
-                          {taskObj.student}
-                        </h4>
-                        <ul className="mt-2 space-y-1">
-                          {taskObj.tasks.map((task, idx) => (
-                            <li
-                              key={idx}
-                              className="text-gray-700 flex items-start"
-                            >
-                              <span className="text-blue-400 mr-2">•</span>
-                              {task}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                </div>
-              </div>
+              {/* Display New Tasks */}
+              
+               <NewTasks newTasks={newTasks} batchStudents={batchStudents} />
+              {/* Display Answered Students */}
+              <AnsweredStudents
+                currentStudent={currentStudent}
+                uniqueAnsweredStudents={uniqueAnsweredStudents}
+              />
+             
             </div>
 
             {/* Session Controls */}

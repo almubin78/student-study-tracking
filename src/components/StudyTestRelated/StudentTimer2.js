@@ -7,6 +7,8 @@ import additionalTasks from "../../data/additionalTasks";
 import BatchSelector from "./BatchSelector/BatchSelector";
 import QuestionPanel from "./QuestionsComponent/QuestionPanel";
 import Timer from "./Timer/Timer";
+import AnsweredStudents from "./AnsweredStudents/AnsweredStudents";
+import NewTasks from "./NewTasks/NewTasks";
 
 const StudentTimer2 = () => {
   // State to hold selected batch and its students
@@ -175,25 +177,15 @@ const StudentTimer2 = () => {
             key={`student-panel-${currentStudent.id}`} // Add unique key to force re-render
             className="fixed top-20 right-0 w-1/3 h-auto p-6 bg-white shadow-xl rounded-lg border border-gray-200"
           >
-            <div className="flex items-center justify-center mb-4">
-              <img
-                src={currentStudent.imgLink}
-                alt={currentStudent.name}
-                className="w-16 h-16 rounded-full mr-4 border-2 border-blue-500"
-              />
-              <div>
-                <h3 className="text-xl font-bold text-gray-700">
-                  {currentStudent.name}
-                </h3>
-                <p className="text-gray-500">{selectedBatch} Batch</p>
-              </div>
-            </div>
+            
             <Timer
               key={`timer-${currentStudent.id}`} // Unique key for timer
               // key={timerKey} // 
               initialTime={5}
               onTimeUp={handleTimeUp}
               isPaused={isPaused}
+              currentStudent={currentStudent}
+              selectedBatch={selectedBatch}
             />
           </div>
 
@@ -207,66 +199,18 @@ const StudentTimer2 = () => {
             <QuestionPanel questions={currentQuestions} />
           </div>
 
-          {/* Display Answered Students in reverse way */}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h3 className="text-lg font-bold mb-4">
-              Answered Students:{currentStudent?.length}
-            </h3>
-            <div className="overflow-y-auto max-h-64">
-              {[...uniqueAnsweredStudents]
-                .reverse() // Reverse the array to show newest first
-                .map((student) => (
-                  <div
-                    key={student.id}
-                    className="flex items-center py-2 border-b border-gray-100"
-                  >
-                    <img
-                      src={student.imgLink}
-                      alt={student.name}
-                      className="w-10 h-10 rounded-full mr-3"
-                    />
-                    <div>
-                      <p className="font-medium">{student.name}</p>
-                      <p className="text-sm text-gray-500">
-                        {student.score || "0"} pts
-                      </p>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-          {/* Tasks for Answered questions*/}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h3 className="text-lg font-bold mb-4">Assigned Tasks:</h3>
-            <div className="overflow-y-auto max-h-64">
-              {newTasks
-                // Remove duplicate students (keeping only the latest entry)
-                .filter(
-                  (taskObj, index, self) =>
-                    index ===
-                    self.findLastIndex((t) => t.student === taskObj.student)
-                )
-                // Reverse to show most recent first
-                .reverse()
-                .map((taskObj) => (
-                  <div
-                    key={taskObj.student}
-                    className="mb-4 border-b border-gray-100 pb-4"
-                  >
-                    <h4 className="font-semibold text-blue-600">
-                      {taskObj.student}
-                    </h4>
-                    <ul className="list-disc pl-5 mt-1">
-                      {taskObj.tasks.map((task, idx) => (
-                        <li key={idx} className="text-sm text-gray-700 py-1">
-                          {task}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-            </div>
-          </div>
+          {/* Display Answered Students */}
+          <AnsweredStudents
+            currentStudent={currentStudent}
+            uniqueAnsweredStudents={uniqueAnsweredStudents}
+          />
+          {/* Display New Tasks */}
+          <NewTasks
+            newTasks={newTasks}
+            batchStudents={batchStudents}
+          />
+
+
           {/* Toggle Resume and Pause button */}
           <div className="flex justify-center space-x-4 mt-6">
             <button
