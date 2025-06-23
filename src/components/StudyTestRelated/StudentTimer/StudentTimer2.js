@@ -187,8 +187,8 @@ const StudentTimer2 = () => {
               </div>
             </div>
             <Timer
-              // key={`timer-${currentStudent.id}`} // Unique key for timer
-              key={timerKey} // 
+              key={`timer-${currentStudent.id}`} // Unique key for timer
+              // key={timerKey} // 
               initialTime={5}
               onTimeUp={handleTimeUp}
               isPaused={isPaused}
