@@ -1,5 +1,19 @@
 // src/data/questionsData.js
 const questionsData = {
+    Nine: [
+      { id: 1, question: 'চাপ বলতে কি বুঝ? ' },
+      { id: 2, question: 'কোন বস্তুর বাতাসে ওজন নির্ণয়ের সূত্র কী?' },
+      { id: 3, question: 'বস্তু কর্তৃক অপসারিত তরলের ওজন নির্ণয়ের সূত্র কী?' },
+      { id: 4, question: 'চাপের একক কী ' },
+      { id: 5, question: 'ঘনত্বের একক কী? ' },
+      { id: 6, question: 'তরলে বস্তুর ওজন নির্নয় কিভাবে করা হয়? ' },
+      { id: 7, question: 'ওজনের একক কী?' },
+      { id: 8, question: 'ঘনত্ব কাকে বলে?' },
+      { id: 9, question: 'ঘনত্বের সূত্র কী?' },
+      { id: 10, question: 'চাপ কাকে বলে?' },
+      { id: 11, question: 'প্লবতা কী?' },
+      { id: 12, question: 'বস্তুর ভরকে তার আয়তন দিয়ে ভাগ করলে কী পাওয়া যায়?' },
+    ],
     HSC: [
       { id: 1, question: 'HSC Question 1' },
       { id: 2, question: 'সার্বজনীন গেইট বলতে কি বোঝ?' },
