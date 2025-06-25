@@ -60,6 +60,26 @@ const Root = () => {
               </div>
             </div>
           </Link>
+          <Link 
+            to="/study-test1" 
+            className="group transform transition-all hover:scale-105 hover:shadow-xl"
+          >
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-blue-100">
+              <div className="bg-blue-800 p-4">
+                <h2 className="text-2xl font-bold text-white">স্টাডি টেস্ট - 1</h2>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-700 mb-4">
+                  অ্যাডভান্সড মূল্যায়ন টেস্ট
+                </p>
+                <div className="flex justify-center">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300 group-hover:bg-blue-800">
+                    শুরু করুন
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
 
        

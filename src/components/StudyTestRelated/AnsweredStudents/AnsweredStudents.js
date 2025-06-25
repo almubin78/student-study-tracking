@@ -6,7 +6,7 @@ const AnsweredStudents = ({ currentStudent, uniqueAnsweredStudents }) => {
     return (
         <>
          {/* Display Answered Students in reverse way */}
-         <h1>Hey this is separate component </h1>
+         
         <div className="bg-white shadow-md rounded-lg p-4">
             <h3 className="text-lg font-bold mb-4">
               Answered Students:{currentStudent?.length}

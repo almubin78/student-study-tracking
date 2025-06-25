@@ -3,6 +3,8 @@ import ErrorElement from "../components/ErrorElement";
 import Root from "../components/Root";
 import StudentTimer2 from "../components/StudyTestRelated/StudentTimer2";
 import StudyTestHome from "../components/StudyTestRelated/StudyTestHome";
+// import StudyTestHome55 from "../components/StudyTestRelated/StudyTestHome55";
+import StudyTestHome1 from "../components/StudyTestRelated/StudyTestHome1";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/study-test2",
         element: <StudyTestHome/>,
+      },
+      {
+        path: "/study-test1",
+        element: <StudyTestHome1/>,
       },
     ],
   },
