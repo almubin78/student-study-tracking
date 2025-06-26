@@ -49,7 +49,9 @@ const StudyTestHome1 = () => {
   const selectRandomQuestions = () => {
     if (!selectedBatch || !questionsData[selectedBatch]) return;
     const batchQuestions = questionsData[selectedBatch];
-    const shuffledQuestions = [...batchQuestions].sort(() => 0.5 - Math.random());
+    const shuffledQuestions = [...batchQuestions].sort(
+      () => 0.5 - Math.random()
+    );
     setCurrentQuestions(shuffledQuestions.slice(0, 5));
   };
 
@@ -98,7 +100,8 @@ const StudyTestHome1 = () => {
 
   // Filter out duplicate students
   const uniqueAnsweredStudents = answeredStudents.filter(
-    (student, index, self) => index === self.findIndex((s) => s.id === student.id)
+    (student, index, self) =>
+      index === self.findIndex((s) => s.id === student.id)
   );
 
   return (
@@ -116,7 +119,7 @@ const StudyTestHome1 = () => {
         <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10 p-4">
           <h2 className="text-lg font-bold mb-4">Session Settings</h2>
           <BatchSelector onSelectBatch={setSelectedBatch} />
-          
+
           <div className="my-4">
             <label className="block mb-2">Time per Student:</label>
             <select
@@ -129,6 +132,8 @@ const StudyTestHome1 = () => {
               <option value={15}>15 seconds</option>
               <option value={20}>20 seconds</option>
               <option value={30}>30 seconds</option>
+              <option value={60}>1 Minite</option>
+              <option value={120}>2 Minite</option>
             </select>
           </div>
 
@@ -148,10 +153,12 @@ const StudyTestHome1 = () => {
       <div className={`transition-all ${showBatchSelector ? "ml-64" : "ml-0"}`}>
         {sessionStatus === "idle" ? (
           <div className="max-w-md mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6 text-center">Student Assessment</h1>
+            <h1 className="text-2xl font-bold mb-6 text-center">
+              Student Assessment
+            </h1>
             <div className="bg-white p-6 rounded-lg shadow">
               <BatchSelector onSelectBatch={setSelectedBatch} />
-              
+
               <div className="my-4">
                 <label className="block mb-2">Time per Student:</label>
                 <select
@@ -164,6 +171,8 @@ const StudyTestHome1 = () => {
                   <option value={15}>15 seconds</option>
                   <option value={20}>20 seconds</option>
                   <option value={30}>30 seconds</option>
+                  <option value={60}>1 Minite</option>
+                  <option value={120}>2 Minite</option>
                 </select>
               </div>
 
@@ -171,7 +180,9 @@ const StudyTestHome1 = () => {
                 onClick={handleStartSession}
                 disabled={!selectedBatch}
                 className={`w-full py-2 rounded text-white ${
-                  !selectedBatch ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+                  !selectedBatch
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-600"
                 }`}
               >
                 Start Session
@@ -207,7 +218,7 @@ const StudyTestHome1 = () => {
                     <p className="text-sm">{selectedBatch}</p>
                   </div>
                 </div>
-                
+
                 <Timer
                   key={`timer-${currentStudent.id}`}
                   initialTime={studentTimeLimit}
