@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import StudyTestHome1 from "./StudyTestRelated/StudyTestHome1";
 
 const Root = () => {
   return (
@@ -14,7 +15,7 @@ const Root = () => {
             আপনার পড়াশোনার অগ্রগতি যাচাই করুন আমাদের ইন্টারেক্টিভ টেস্ট সিরিজের মাধ্যমে
           </p>
         </header>
-
+      <StudyTestHome1/>
         {/* Test Selection Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Test 1 Card */}
@@ -60,7 +61,7 @@ const Root = () => {
               </div>
             </div>
           </Link> */}
-          <Link 
+          {/* <Link 
             to="/study-test1" 
             className="group transform transition-all hover:scale-105 hover:shadow-xl"
           >
@@ -79,15 +80,15 @@ const Root = () => {
                 </div>
               </div>
             </div>
-          </Link>
+          </Link> */}
         </div>
 
        
 
         {/* Outlet for nested routes */}
-        <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+        {/* <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
           <Outlet />
-        </div>
+        </div> */}
          {/* Additional Information */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-200">
           <h3 className="text-xl font-semibold text-blue-700 mb-3">টেস্ট সম্পর্কে নির্দেশনা</h3>

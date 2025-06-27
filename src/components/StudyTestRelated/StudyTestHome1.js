@@ -19,7 +19,7 @@ const StudyTestHome1 = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [studentTimeLimit, setStudentTimeLimit] = useState(15);
   const [showBatchSelector, setShowBatchSelector] = useState(false);
-  const [sessionStatus, setSessionStatus] = useState("setup"); // 'setup', 'attendance', 'active', 'completed'
+  const [sessionStatus, setSessionStatus] = useState("setup"); // 'setup', 'attendance', 'active'
   const [presentStudents, setPresentStudents] = useState([]);
 
   // Update batch students when batch changes
@@ -27,21 +27,18 @@ const StudyTestHome1 = () => {
     if (selectedBatch && studentsData[selectedBatch]) {
       const batchStudents = studentsData[selectedBatch];
       setBatchStudents(batchStudents);
-      // Initialize all students as present by default
       setPresentStudents(batchStudents.map(student => ({...student, present: true})));
     }
   }, [selectedBatch]);
 
   // Function to select a random student who hasn't answered yet
   const selectRandomStudent = () => {
-    if (!presentStudents.length) return;
-
     const presentAndUnanswered = presentStudents
       .filter(student => student.present)
       .filter(student => !answeredStudents.some(s => s.id === student.id));
 
     if (presentAndUnanswered.length === 0) {
-      setSessionStatus("completed");
+      setCurrentStudent(null);
       return;
     }
 
@@ -108,9 +105,11 @@ const StudyTestHome1 = () => {
 
   // Filter out duplicate students
   const uniqueAnsweredStudents = answeredStudents.filter(
-    (student, index, self) =>
-      index === self.findIndex((s) => s.id === student.id)
+    (student, index, self) => index === self.findIndex((s) => s.id === student.id)
   );
+
+  const presentCount = presentStudents.filter(s => s.present).length;
+  const answeredCount = uniqueAnsweredStudents.length;
 
   return (
     <div className="relative min-h-screen bg-gray-50">
@@ -209,13 +208,15 @@ const StudyTestHome1 = () => {
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold mb-2">
-                  {selectedBatch} Batch ({presentStudents.filter(s => s.present).length}/{presentStudents.length} present)
+                  {selectedBatch} Batch ({presentCount}/{presentStudents.length} present)
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-96 overflow-y-auto">
                   {presentStudents.map((student) => (
                     <div 
                       key={student.id} 
-                      className={`flex items-center p-2 border rounded cursor-pointer ${student.present ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}
+                      className={`flex items-center p-2 border rounded cursor-pointer ${
+                        student.present ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+                      }`}
                       onClick={() => toggleStudentAttendance(student.id)}
                     >
                       <input
@@ -242,26 +243,9 @@ const StudyTestHome1 = () => {
               </button>
             </div>
           </div>
-        ) : sessionStatus === "completed" ? (
-          <div className="max-w-md mx-auto p-4 text-center">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-bold mb-4">Session Completed!</h2>
-              <p>All present students have answered.</p>
-              <button
-                onClick={() => {
-                  setSessionStatus("setup");
-                  setAnsweredStudents([]);
-                  setNewTasks([]);
-                }}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Restart Session
-              </button>
-            </div>
-          </div>
         ) : (
           <div className="max-w-6xl mx-auto p-4">
-            {/* Timer Panel */}
+            {/* Timer and Current Student Panel */}
             {currentStudent && (
               <div className="fixed top-4 right-4 bg-white p-4 rounded-lg shadow-lg w-72">
                 <div className="flex items-center mb-3">
@@ -294,17 +278,23 @@ const StudyTestHome1 = () => {
               </div>
             )}
 
-            {/* Questions */}
-            <div className="mt-4 max-w-3xl mx-auto">
-              <QuestionPanel questions={currentQuestions} />
-            </div>
+            {/* Questions Panel - Only shown when there's a current student */}
+            {currentStudent && (
+              <div className="mt-4 max-w-3xl mx-auto">
+                <QuestionPanel questions={currentQuestions} />
+              </div>
+            )}
 
-            {/* Results */}
+            {/* Results - Always visible */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
               <div className="bg-white p-4 rounded shadow">
-                <h3 className="font-bold mb-2">Answered Students</h3>
+                <h3 className="font-bold mb-2">
+                  Answered Students ({answeredCount}/{presentCount})
+                  {answeredCount === presentCount && presentCount > 0 && (
+                    <span className="ml-2 text-green-500">✓ All completed</span>
+                  )}
+                </h3>
                 <AnsweredStudents
-                  currentStudent={currentStudent}
                   uniqueAnsweredStudents={uniqueAnsweredStudents}
                 />
               </div>
@@ -325,7 +315,7 @@ const StudyTestHome1 = () => {
                 }}
                 className="bg-blue-500 text-white py-2 px-6 rounded"
               >
-                Restart Session
+                Start New Session
               </button>
             </div>
           </div>
