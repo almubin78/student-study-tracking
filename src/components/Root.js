@@ -18,7 +18,7 @@ const Root = () => {
         {/* Test Selection Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Test 1 Card */}
-          <Link 
+          {/* <Link 
             to="/study-test" 
             className="group transform transition-all hover:scale-105 hover:shadow-xl"
           >
@@ -37,10 +37,10 @@ const Root = () => {
                 </div>
               </div>
             </div>
-          </Link>
+          </Link> */}
 
           {/* Test 2 Card */}
-          <Link 
+          {/* <Link 
             to="/study-test2" 
             className="group transform transition-all hover:scale-105 hover:shadow-xl"
           >
@@ -59,14 +59,14 @@ const Root = () => {
                 </div>
               </div>
             </div>
-          </Link>
+          </Link> */}
           <Link 
             to="/study-test1" 
             className="group transform transition-all hover:scale-105 hover:shadow-xl"
           >
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-blue-100">
               <div className="bg-blue-800 p-4">
-                <h2 className="text-2xl font-bold text-white">স্টাডি টেস্ট - 1</h2>
+                <h2 className="text-2xl font-bold text-white">স্টাডি টেস্ট</h2>
               </div>
               <div className="p-6">
                 <p className="text-gray-700 mb-4">

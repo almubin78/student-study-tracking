@@ -17,41 +17,43 @@ const StudyTestHome1 = () => {
   const [currentStudent, setCurrentStudent] = useState(null);
   const [answeredStudents, setAnsweredStudents] = useState([]);
   const [isPaused, setIsPaused] = useState(false);
-  const [studentTimeLimit, setStudentTimeLimit] = useState(15); // Default 15 seconds
+  const [studentTimeLimit, setStudentTimeLimit] = useState(15);
   const [showBatchSelector, setShowBatchSelector] = useState(false);
-  const [sessionStatus, setSessionStatus] = useState("idle"); // 'idle', 'active', 'completed'
+  const [sessionStatus, setSessionStatus] = useState("setup"); // 'setup', 'attendance', 'active', 'completed'
+  const [presentStudents, setPresentStudents] = useState([]);
 
   // Update batch students when batch changes
   useEffect(() => {
     if (selectedBatch && studentsData[selectedBatch]) {
-      setBatchStudents(studentsData[selectedBatch]);
+      const batchStudents = studentsData[selectedBatch];
+      setBatchStudents(batchStudents);
+      // Initialize all students as present by default
+      setPresentStudents(batchStudents.map(student => ({...student, present: true})));
     }
   }, [selectedBatch]);
 
   // Function to select a random student who hasn't answered yet
   const selectRandomStudent = () => {
-    if (!batchStudents.length) return;
+    if (!presentStudents.length) return;
 
-    const unAnsweredStudents = batchStudents.filter(
-      (student) => !answeredStudents.some((s) => s.id === student.id)
-    );
+    const presentAndUnanswered = presentStudents
+      .filter(student => student.present)
+      .filter(student => !answeredStudents.some(s => s.id === student.id));
 
-    if (unAnsweredStudents.length === 0) {
+    if (presentAndUnanswered.length === 0) {
       setSessionStatus("completed");
       return;
     }
 
-    const randomIndex = Math.floor(Math.random() * unAnsweredStudents.length);
-    setCurrentStudent(unAnsweredStudents[randomIndex]);
+    const randomIndex = Math.floor(Math.random() * presentAndUnanswered.length);
+    setCurrentStudent(presentAndUnanswered[randomIndex]);
   };
 
   // Function to select random questions
   const selectRandomQuestions = () => {
     if (!selectedBatch || !questionsData[selectedBatch]) return;
     const batchQuestions = questionsData[selectedBatch];
-    const shuffledQuestions = [...batchQuestions].sort(
-      () => 0.5 - Math.random()
-    );
+    const shuffledQuestions = [...batchQuestions].sort(() => 0.5 - Math.random());
     setCurrentQuestions(shuffledQuestions.slice(0, 5));
   };
 
@@ -82,18 +84,24 @@ const StudyTestHome1 = () => {
     selectRandomQuestions();
   };
 
-  // Handle session start
-  const handleStartSession = () => {
-    if (!selectedBatch) {
-      alert("Please select a batch before starting the session.");
+  // Toggle student attendance
+  const toggleStudentAttendance = (studentId) => {
+    setPresentStudents(prev => 
+      prev.map(student => 
+        student.id === studentId 
+          ? {...student, present: !student.present} 
+          : student
+      )
+    );
+  };
+
+  // Handle session start after attendance confirmation
+  const confirmAttendanceAndStart = () => {
+    if (presentStudents.filter(s => s.present).length === 0) {
+      alert("Please mark at least one student as present");
       return;
     }
-
-    setAnsweredStudents([]);
-    setNewTasks([]);
-    setCurrentStudent(null);
     setSessionStatus("active");
-    setIsPaused(false);
     selectRandomStudent();
     selectRandomQuestions();
   };
@@ -132,31 +140,31 @@ const StudyTestHome1 = () => {
               <option value={15}>15 seconds</option>
               <option value={20}>20 seconds</option>
               <option value={30}>30 seconds</option>
-              <option value={60}>1 Minite</option>
-              <option value={120}>2 Minite</option>
-              <option value={180}>3 Minite</option>
-              <option value={300}>5 Minite</option>
+              <option value={60}>1 Minute</option>
+              <option value={120}>2 Minutes</option>
+              <option value={180}>3 Minutes</option>
+              <option value={300}>5 Minutes</option>
             </select>
           </div>
 
           <button
             onClick={() => {
               setShowBatchSelector(false);
-              handleStartSession();
+              setSessionStatus("attendance");
             }}
             className="w-full bg-green-500 text-white py-2 rounded"
           >
-            Start Session
+            Confirm Attendance
           </button>
         </div>
       )}
 
       {/* Main Content */}
       <div className={`transition-all ${showBatchSelector ? "ml-64" : "ml-0"}`}>
-        {sessionStatus === "idle" ? (
+        {sessionStatus === "setup" ? (
           <div className="max-w-md mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6 text-center">
-              Student Assessment
+              Student Assessment Setup
             </h1>
             <div className="bg-white p-6 rounded-lg shadow">
               <BatchSelector onSelectBatch={setSelectedBatch} />
@@ -173,15 +181,15 @@ const StudyTestHome1 = () => {
                   <option value={15}>15 seconds</option>
                   <option value={20}>20 seconds</option>
                   <option value={30}>30 seconds</option>
-                  <option value={60}>1 Minite</option>
-                  <option value={120}>2 Minite</option>
-                  <option value={180}>3 Minite</option>
-                  <option value={300}>5 Minite</option>
+                  <option value={60}>1 Minute</option>
+                  <option value={120}>2 Minutes</option>
+                  <option value={180}>3 Minutes</option>
+                  <option value={300}>5 Minutes</option>
                 </select>
               </div>
 
               <button
-                onClick={handleStartSession}
+                onClick={() => setSessionStatus("attendance")}
                 disabled={!selectedBatch}
                 className={`w-full py-2 rounded text-white ${
                   !selectedBatch
@@ -189,7 +197,48 @@ const StudyTestHome1 = () => {
                     : "bg-blue-500 hover:bg-blue-600"
                 }`}
               >
-                Start Session
+                Confirm Attendance
+              </button>
+            </div>
+          </div>
+        ) : sessionStatus === "attendance" ? (
+          <div className="max-w-2xl mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-6 text-center">
+              Mark Present Students
+            </h1>
+            <div className="bg-white p-6 rounded-lg shadow">
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold mb-2">
+                  {selectedBatch} Batch ({presentStudents.filter(s => s.present).length}/{presentStudents.length} present)
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+                  {presentStudents.map((student) => (
+                    <div 
+                      key={student.id} 
+                      className={`flex items-center p-2 border rounded cursor-pointer ${student.present ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}
+                      onClick={() => toggleStudentAttendance(student.id)}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={student.present}
+                        onChange={() => toggleStudentAttendance(student.id)}
+                        className="mr-2"
+                      />
+                      <img
+                        src={student.imgLink}
+                        alt={student.name}
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      <span>{student.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                onClick={confirmAttendanceAndStart}
+                className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+              >
+                শুরু করুন (Start Test)
               </button>
             </div>
           </div>
@@ -197,9 +246,13 @@ const StudyTestHome1 = () => {
           <div className="max-w-md mx-auto p-4 text-center">
             <div className="bg-white p-6 rounded-lg shadow">
               <h2 className="text-xl font-bold mb-4">Session Completed!</h2>
-              <p>All students have answered.</p>
+              <p>All present students have answered.</p>
               <button
-                onClick={handleStartSession}
+                onClick={() => {
+                  setSessionStatus("setup");
+                  setAnsweredStudents([]);
+                  setNewTasks([]);
+                }}
                 className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
               >
                 Restart Session
@@ -265,7 +318,11 @@ const StudyTestHome1 = () => {
             {/* Restart Button */}
             <div className="mt-6 text-center">
               <button
-                onClick={handleStartSession}
+                onClick={() => {
+                  setSessionStatus("setup");
+                  setAnsweredStudents([]);
+                  setNewTasks([]);
+                }}
                 className="bg-blue-500 text-white py-2 px-6 rounded"
               >
                 Restart Session
