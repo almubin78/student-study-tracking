@@ -134,6 +134,8 @@ const StudyTestHome1 = () => {
               <option value={30}>30 seconds</option>
               <option value={60}>1 Minite</option>
               <option value={120}>2 Minite</option>
+              <option value={180}>3 Minite</option>
+              <option value={300}>5 Minite</option>
             </select>
           </div>
 
@@ -173,6 +175,8 @@ const StudyTestHome1 = () => {
                   <option value={30}>30 seconds</option>
                   <option value={60}>1 Minite</option>
                   <option value={120}>2 Minite</option>
+                  <option value={180}>3 Minite</option>
+                  <option value={300}>5 Minite</option>
                 </select>
               </div>
 
