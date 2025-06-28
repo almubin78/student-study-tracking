@@ -1,4 +1,5 @@
-import StudyTestHome1 from "./StudyTestRelated/StudyTestHome1";
+import HomePage from "./StudyTestRelated/HomePage";
+// import StudyTestHome1 from "./StudyTestRelated/StudyTestHome1";
 
 const Root = () => {
   return (
@@ -14,7 +15,8 @@ const Root = () => {
             আপনার পড়াশোনার অগ্রগতি যাচাই করুন আমাদের ইন্টারেক্টিভ টেস্ট সিরিজের মাধ্যমে
           </p>
         </header>
-      <StudyTestHome1/>
+      {/* <StudyTestHome1/> */}
+      <HomePage/>
         {/* Test Selection Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Test 1 Card */}

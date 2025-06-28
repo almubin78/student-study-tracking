@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+
+import SettingsPanel from "./subComponents/SettingsPanel";
+import AttendanceList from "./subComponents/AttendanceList";
+import StudentTimerPanel from "./subComponents/StudentTimerPanel";
 import { studentsData } from "../../data/studentsData";
 import questionsData from "../../data/questionsData";
 import additionalTasks from "../../data/additionalTasks";
-import BatchSelector from "./BatchSelector/BatchSelector";
 import QuestionPanel from "./QuestionsComponent/QuestionPanel";
-import Timer from "./Timer/Timer";
 import AnsweredStudents from "./AnsweredStudents/AnsweredStudents";
 import NewTasks from "./NewTasks/NewTasks";
 
-const StudyTestHome1 = () => {
+const HomePage = () => {
   // State management
   const [selectedBatch, setSelectedBatch] = useState("");
   const [batchStudents, setBatchStudents] = useState([]);
@@ -17,7 +19,7 @@ const StudyTestHome1 = () => {
   const [currentStudent, setCurrentStudent] = useState(null);
   const [answeredStudents, setAnsweredStudents] = useState([]);
   const [isPaused, setIsPaused] = useState(false);
-  const [studentTimeLimit, setStudentTimeLimit] = useState(5);
+  const [studentTimeLimit, setStudentTimeLimit] = useState(15);
   const [showBatchSelector, setShowBatchSelector] = useState(false);
   const [sessionStatus, setSessionStatus] = useState("setup"); // 'setup', 'attendance', 'active'
   const [presentStudents, setPresentStudents] = useState([]);
@@ -60,16 +62,11 @@ const StudyTestHome1 = () => {
 
   // Randomly select additional tasks
   const assignRandomTasks = () => {
-    //updated code
-    // In your StudyTestHome1 component, update the assignRandomTasks function:
-
+    // const shuffledTasks = [...additionalTasks].sort(() => 0.5 - Math.random());
+    // return shuffledTasks.slice(0, 5);
     const batchTasks = additionalTasks[selectedBatch] || [];
     const shuffledTasks = [...batchTasks].sort(() => 0.5 - Math.random());
     return shuffledTasks.slice(0, 5);
-
-    //last version code
-    // const shuffledTasks = [...additionalTasks].sort(() => 0.5 - Math.random());
-    //   return shuffledTasks.slice(0, 3);
   };
 
   // Handle time up for current student
@@ -138,35 +135,17 @@ const StudyTestHome1 = () => {
       {showBatchSelector && (
         <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10 p-4">
           <h2 className="text-lg font-bold mb-4">Session Settings</h2>
-          <BatchSelector onSelectBatch={setSelectedBatch} />
-
-          <div className="my-4">
-            <label className="block mb-2">Time per Student:</label>
-            <select
-              value={studentTimeLimit}
-              onChange={(e) => setStudentTimeLimit(Number(e.target.value))}
-              className="w-full p-2 border rounded"
-            >
-              {/* for testing  */}
-              <option value={5}>Five Second</option>
-              {/* for deploy */}
-              <option value={30}>30 seconds</option>
-              <option value={60}>1 Minute</option>
-              <option value={120}>2 Minutes</option>
-              <option value={180}>3 Minutes</option>
-              <option value={300}>5 Minutes</option>
-            </select>
-          </div>
-
-          <button
-            onClick={() => {
+          <SettingsPanel
+            selectedBatch={selectedBatch}
+            setSelectedBatch={setSelectedBatch}
+            studentTimeLimit={studentTimeLimit}
+            setStudentTimeLimit={setStudentTimeLimit}
+            onConfirm={() => {
               setShowBatchSelector(false);
               setSessionStatus("attendance");
             }}
-            className="w-full bg-green-500 text-white py-2 rounded"
-          >
-            Confirm Attendance
-          </button>
+            buttonText="Confirm Attendance"
+          />
         </div>
       )}
 
@@ -177,39 +156,14 @@ const StudyTestHome1 = () => {
             <h1 className="text-2xl font-bold mb-6 text-center">
               Student Assessment Setup
             </h1>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <BatchSelector onSelectBatch={setSelectedBatch} />
-
-              <div className="my-4">
-                <label className="block mb-2">Time per Student:</label>
-                <select
-                  value={studentTimeLimit}
-                  onChange={(e) => setStudentTimeLimit(Number(e.target.value))}
-                  className="w-full p-2 border rounded"
-                >
-                  {/* for testing  */}
-                  {/* for deploy */}
-                  <option value={5}>5 seconds</option>
-                  <option value={30}>30 seconds</option>
-                  <option value={60}>1 Minute</option>
-                  <option value={120}>2 Minutes</option>
-                  <option value={180}>3 Minutes</option>
-                  <option value={300}>5 Minutes</option>
-                </select>
-              </div>
-
-              <button
-                onClick={() => setSessionStatus("attendance")}
-                disabled={!selectedBatch}
-                className={`w-full py-2 rounded text-white ${
-                  !selectedBatch
-                    ? "bg-gray-400"
-                    : "bg-blue-500 hover:bg-blue-600"
-                }`}
-              >
-                Confirm Attendance
-              </button>
-            </div>
+            <SettingsPanel
+              selectedBatch={selectedBatch}
+              setSelectedBatch={setSelectedBatch}
+              studentTimeLimit={studentTimeLimit}
+              setStudentTimeLimit={setStudentTimeLimit}
+              onConfirm={() => setSessionStatus("attendance")}
+              buttonText="Confirm Attendance"
+            />
           </div>
         ) : sessionStatus === "attendance" ? (
           <div className="max-w-2xl mx-auto p-4">
@@ -222,32 +176,10 @@ const StudyTestHome1 = () => {
                   {selectedBatch} Batch ({presentCount}/{presentStudents.length}{" "}
                   present)
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-96 overflow-y-auto">
-                  {presentStudents.map((student) => (
-                    <div
-                      key={student.id}
-                      className={`flex items-center p-2 border rounded cursor-pointer ${
-                        student.present
-                          ? "bg-green-50 border-green-200"
-                          : "bg-gray-50 border-gray-200"
-                      }`}
-                      onClick={() => toggleStudentAttendance(student.id)}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={student.present}
-                        onChange={() => toggleStudentAttendance(student.id)}
-                        className="mr-2"
-                      />
-                      <img
-                        src={student.imgLink}
-                        alt={student.name}
-                        className="w-8 h-8 rounded-full mr-2"
-                      />
-                      <span>{student.name}</span>
-                    </div>
-                  ))}
-                </div>
+                <AttendanceList
+                  students={presentStudents}
+                  onToggle={toggleStudentAttendance}
+                />
               </div>
               <button
                 onClick={confirmAttendanceAndStart}
@@ -261,35 +193,14 @@ const StudyTestHome1 = () => {
           <div className="max-w-6xl mx-auto p-4">
             {/* Timer and Current Student Panel */}
             {currentStudent && (
-              <div className="fixed top-4 right-4 bg-white p-4 rounded-lg shadow-lg w-72">
-                <div className="flex items-center mb-3">
-                  <img
-                    src={currentStudent.imgLink}
-                    alt={currentStudent.name}
-                    className="w-10 h-10 rounded-full mr-3"
-                  />
-                  <div>
-                    <h3 className="font-bold">{currentStudent.name}</h3>
-                    <p className="text-sm">{selectedBatch}</p>
-                  </div>
-                </div>
-
-                <Timer
-                  key={`timer-${currentStudent.id}`}
-                  initialTime={studentTimeLimit}
-                  onTimeUp={handleTimeUp}
-                  isPaused={isPaused}
-                />
-
-                <button
-                  onClick={() => setIsPaused(!isPaused)}
-                  className={`w-full mt-3 py-1 rounded ${
-                    isPaused ? "bg-green-500" : "bg-yellow-500"
-                  } text-white`}
-                >
-                  {isPaused ? "Resume" : "Pause"}
-                </button>
-              </div>
+              <StudentTimerPanel
+                student={currentStudent}
+                batch={selectedBatch}
+                timeLimit={studentTimeLimit}
+                isPaused={isPaused}
+                onTimeUp={handleTimeUp}
+                onTogglePause={() => setIsPaused(!isPaused)}
+              />
             )}
 
             {/* Questions Panel - Only shown when there's a current student */}
@@ -339,4 +250,4 @@ const StudyTestHome1 = () => {
   );
 };
 
-export default StudyTestHome1;
+export default HomePage;
