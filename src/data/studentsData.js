@@ -1,51 +1,71 @@
 // src/data/studentsData.js
 export const studentsData = {
-    HSC: [
-      { id: 1, name: "Md Borhan Mondol", imgLink: "https://i.ibb.co/KDhg3v7/borhan-2.png" },
-      { id: 2, name: "Maliha Momtaz Luba", imgLink: "https://i.ibb.co/C1zf4ZN/luba2.png" },
-      { id: 3, name: "Sidratul Muntaha Shithi", imgLink: "https://i.ibb.co/ChN22g9/shithi-2.png" }
-    ],
-    Eight: [
-      // { id: 1, name: "Lamiya", imgLink: "https://i.ibb.co/WGXGHLQ/lamiya-2.jpg" },
-      { id: 2, name: "Prottoy", imgLink: "https://i.ibb.co/frPLJMy/prottoy.jpg" },
-      { id: 3, name: "Riya", imgLink: "" }, // imgLink ফাঁকা
-      { id: 4, name: "Sathi", imgLink: "https://i.ibb.co/ng54MVX/sathi.jpg" },
-      { id: 5, name: "Sadiya", imgLink: "" }, // imgLink ফাঁকা
-      { id: 6, name: "Miraz", imgLink: "https://i.ibb.co/nCVYVGz/miraz.jpg" },
-      { id: 7, name: "Ritu", imgLink: "" }, // imgLink ফাঁকা
-      { id: 8, name: "Rukaiya", imgLink: "https://i.ibb.co/syMd0zG/rukaiya.jpg" },
-      { id: 9, name: "Mohon", imgLink: "https://i.ibb.co/9vB0Xqr/mohon2.png" },
-      { id: 10, name: "Riyad", imgLink: "https://i.ibb.co.com/SxZHFNg/462257645-122165020022123751-6364378654152732130-n.jpg" },
-      { id: 11, name: "Kousik", imgLink: "https://i.ibb.co/tD1gX3b/kousik.png" },
-      { id: 12, name: "Tamim", imgLink: "https://i.ibb.co/d7xkPg4/tamim2.jpg" },
-      { id: 13, name: "Mottalib", imgLink: "https://i.ibb.co/ynXnSZN/mottalib.jpg" },
-      { id: 14, name: "Moursalin", imgLink: "https://i.ibb.co/9NVNGRr/moursalin3.png" },
-      { id: 15, name: "Shimul", imgLink: "" }, // imgLink ফাঁকা
-      { id: 16, name: "Munna", imgLink: "" }, // imgLink ফাঁকা
-      { id: 17, name: "Hridoy", imgLink: "https://i.ibb.co/BqpPdsK/hridoy.png" },
-      { id: 18, name: "Jihad Bepari", imgLink: "" }, // imgLink ফাঁকা
-    ],
-    Nine: [
-      // { id: 1, name: "Lamiya", imgLink: "https://i.ibb.co/WGXGHLQ/lamiya-2.jpg" },
-      // { id: 2, name: "Prottoy", imgLink: "https://i.ibb.co/frPLJMy/prottoy.jpg" },
-      // { id: 3, name: "Riya", imgLink: "" }, // imgLink ফাঁকা
-      { id: 4, name: "Sathi", imgLink: "https://i.ibb.co/ng54MVX/sathi.jpg" },
-      { id: 5, name: "Sadiya", imgLink: "" }, // imgLink ফাঁকা
-      // { id: 6, name: "Miraz", imgLink: "https://i.ibb.co/nCVYVGz/miraz.jpg" },
-      // { id: 7, name: "Ritu", imgLink: "" }, // imgLink ফাঁকা
-      { id: 8, name: "Rukaiya", imgLink: "https://i.ibb.co/syMd0zG/rukaiya.jpg" },
-      // { id: 9, name: "Mohon", imgLink: "https://i.ibb.co/9vB0Xqr/mohon2.png" },
-      // { id: 10, name: "Riyad", imgLink: "https://i.ibb.co.com/SxZHFNg/462257645-122165020022123751-6364378654152732130-n.jpg" },
-      { id: 11, name: "Kousik", imgLink: "https://i.ibb.co/tD1gX3b/kousik.png" },
-      // { id: 12, name: "Tamim", imgLink: "https://i.ibb.co/d7xkPg4/tamim2.jpg" },
-      // { id: 13, name: "Mottalib", imgLink: "https://i.ibb.co/ynXnSZN/mottalib.jpg" },
-      { id: 14, name: "Moursalin", imgLink: "https://i.ibb.co/9NVNGRr/moursalin3.png" },
-      { id: 15, name: "Shimul", imgLink: "" }, // imgLink ফাঁকা
-      { id: 16, name: "Munna", imgLink: "" }, // imgLink ফাঁকা
-      // { id: 17, name: "Hridoy", imgLink: "https://i.ibb.co/BqpPdsK/hridoy.png" },
-      // { id: 18, name: "Jihad Bepari", imgLink: "" }, // imgLink ফাঁকা
-    ]
-  };
-  
+  Seven: [
+    { id: 1, name: "Md Ibrahim", imgLink: "" },
+    { id: 2, name: "Tasnim", imgLink: "" },
+    { id: 3, name: "Sagorika", imgLink: "" },
+    { id: 4, name: "Bayezid", imgLink: "" },
+    { id: 5, name: "Sadiya", imgLink: "" },
+  ],
 
-  
+  Eight: [{ id: 1, name: "Asha Moni", imgLink: " " }],
+  Nine: [
+    { id: 1, name: "Sathi", imgLink: "https://i.ibb.co/ng54MVX/sathi.jpg" },
+    { id: 2, name: "Sadiya", imgLink: "" }, // imgLink ফাঁকা
+
+    { id: 3, name: "Rukaiya", imgLink: "https://i.ibb.co/syMd0zG/rukaiya.jpg" },
+
+    { id: 4, name: "Kousik", imgLink: "https://i.ibb.co/tD1gX3b/kousik.png" },
+
+    {
+      id: 5,
+      name: "Moursalin",
+      imgLink: "https://i.ibb.co/9NVNGRr/moursalin3.png",
+    },
+    { id: 6, name: "Shimul", imgLink: "" }, // imgLink ফাঁকা
+    { id: 7, name: "Munna", imgLink: "" }, // imgLink ফাঁকা
+    { id: 8, name: "Rimu", imgLink: "" }, // imgLink ফাঁকা
+    { id: 9, name: "Ela Moni", imgLink: "" }, // imgLink ফাঁকা
+  ],
+    Ten: [
+    { id: 1, name: "Muntasir Sifat", imgLink: "" },
+    { id: 2, name: "Borhan", imgLink: "" },
+    { id: 3, name: "Mehedi", imgLink: "" },
+    { id: 4, name: "student4", imgLink: "" },
+    { id: 5, name: "Student5", imgLink: "" },
+  ],
+};
+
+// previous Students Data
+/* 
+
+Eight: [
+{ id: 1, name: "Lamiya", imgLink: "https://i.ibb.co/WGXGHLQ/lamiya-2.jpg" },
+    { id: 2, name: "Prottoy", imgLink: "https://i.ibb.co/frPLJMy/prottoy.jpg" },
+    { id: 3, name: "Riya", imgLink: "" }, // imgLink ফাঁকা
+    { id: 4, name: "Sathi", imgLink: "https://i.ibb.co/ng54MVX/sathi.jpg" },
+    { id: 5, name: "Sadiya", imgLink: "" }, // imgLink ফাঁকা
+    { id: 6, name: "Miraz", imgLink: "https://i.ibb.co/nCVYVGz/miraz.jpg" },
+    { id: 7, name: "Ritu", imgLink: "" }, // imgLink ফাঁকা
+    { id: 8, name: "Rukaiya", imgLink: "https://i.ibb.co/syMd0zG/rukaiya.jpg" },
+    { id: 9, name: "Mohon", imgLink: "https://i.ibb.co/9vB0Xqr/mohon2.png" },
+    { id: 10, name: "Riyad", imgLink: "https://i.ibb.co.com/SxZHFNg/462257645-122165020022123751-6364378654152732130-n.jpg" },
+    { id: 11, name: "Kousik", imgLink: "https://i.ibb.co/tD1gX3b/kousik.png" },
+    { id: 12, name: "Tamim", imgLink: "https://i.ibb.co/d7xkPg4/tamim2.jpg" },
+    { id: 13, name: "Mottalib", imgLink: "https://i.ibb.co/ynXnSZN/mottalib.jpg" },
+    { id: 14, name: "Moursalin", imgLink: "https://i.ibb.co/9NVNGRr/moursalin3.png" },
+    { id: 15, name: "Shimul", imgLink: "" }, // imgLink ফাঁকা
+    { id: 16, name: "Munna", imgLink: "" }, // imgLink ফাঁকা
+    { id: 17, name: "Hridoy", imgLink: "https://i.ibb.co/BqpPdsK/hridoy.png" },
+    // { id: 18, name: "Jihad Bepari", imgLink: "" }, // imgLink ফাঁকা
+  ],
+    HSC: [
+    { id: 1, name: "Md Borhan Mondol", imgLink: "https://i.ibb.co/KDhg3v7/borhan-2.png" },
+    { id: 2, name: "Maliha Momtaz Luba", imgLink: "https://i.ibb.co/C1zf4ZN/luba2.png" },
+    { id: 3, name: "Sidratul Muntaha Shithi", imgLink: "https://i.ibb.co/ChN22g9/shithi-2.png" }
+  ],
+
+
+
+
+*/

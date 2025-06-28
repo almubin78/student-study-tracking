@@ -10,20 +10,20 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />, //এই পেজে Outlate সেট করা আছে বিধায় children use করা হয়েছে।
-    children: [
-      {
-        path: "/study-test",
-        element: <StudentTimer2/>,
-      },
-      {
-        path: "/study-test2",
-        element: <StudyTestHome/>,
-      },
-      {
-        path: "/study-test1",
-        element: <StudyTestHome1/>,
-      },
-    ],
+    // children: [
+    //   {
+    //     path: "/study-test",
+    //     element: <StudentTimer2/>,
+    //   },
+    //   {
+    //     path: "/study-test2",
+    //     element: <StudyTestHome/>,
+    //   },
+    //   {
+    //     path: "/study-test1",
+    //     element: <StudyTestHome1/>,
+    //   },
+    // ],
   },
   {
     path: "*",

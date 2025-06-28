@@ -1,4 +1,3 @@
-import { Link, Outlet } from "react-router-dom";
 import StudyTestHome1 from "./StudyTestRelated/StudyTestHome1";
 
 const Root = () => {
