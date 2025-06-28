@@ -26,6 +26,8 @@ export const studentsData = {
     { id: 7, name: "Munna", imgLink: "" }, // imgLink ফাঁকা
     { id: 8, name: "Rimu", imgLink: "" }, // imgLink ফাঁকা
     { id: 9, name: "Ela Moni", imgLink: "" }, // imgLink ফাঁকা
+    { id: 10, name: "Moriom", imgLink: "" }, // imgLink ফাঁকা
+    { id: 11, name: "Mursalin", imgLink: "" }, // imgLink ফাঁকা
   ],
     Ten: [
     { id: 1, name: "Muntasir Sifat", imgLink: "" },

@@ -62,7 +62,7 @@ const StudyTestHome1 = () => {
   const assignRandomTasks = () => {
     //updated code
     // In your StudyTestHome1 component, update the assignRandomTasks function:
- 
+  
     const batchTasks = additionalTasks[selectedBatch] || [];
       const shuffledTasks = [...batchTasks].sort(() => 0.5 - Math.random());
       return shuffledTasks.slice(0, 5);
@@ -147,10 +147,6 @@ const StudyTestHome1 = () => {
               onChange={(e) => setStudentTimeLimit(Number(e.target.value))}
               className="w-full p-2 border rounded"
             >
-              <option value={5}>5 seconds</option>
-              <option value={10}>10 seconds</option>
-              <option value={15}>15 seconds</option>
-              <option value={20}>20 seconds</option>
               <option value={30}>30 seconds</option>
               <option value={60}>1 Minute</option>
               <option value={120}>2 Minutes</option>
@@ -188,10 +184,7 @@ const StudyTestHome1 = () => {
                   onChange={(e) => setStudentTimeLimit(Number(e.target.value))}
                   className="w-full p-2 border rounded"
                 >
-                  <option value={5}>5 seconds</option>
-                  <option value={10}>10 seconds</option>
-                  <option value={15}>15 seconds</option>
-                  <option value={20}>20 seconds</option>
+                  
                   <option value={30}>30 seconds</option>
                   <option value={60}>1 Minute</option>
                   <option value={120}>2 Minutes</option>
