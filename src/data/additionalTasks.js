@@ -1,15 +1,27 @@
-// additionalTask.js
-const additionalTasks = [
-    'Solve an algorithm challenge.',
-    'Write a blog post about your learnings.',
-    'Complete a code review for a peer.',
-    'Build a small app with React.',
-    'Refactor an old project for performance.',
-    'Watch a tutorial on advanced JavaScript.',
-    'Implement unit tests for a project.',
-    'Contribute to an open-source project.',
-    'Design a wireframe for a new feature.',
-    ' Research and write about new technologies.'
-];
+// additionalTasks.js
+const additionalTasks = {
+  Nine: [
+    "Class Nine Math exercises",
+    "Class Nine Math exercises",
+    
+  ],
+  Ten: [
+    "Class Ten Math exercises",
+    
+  ],
+  // Add more batches as needed
+  Hsc: [
+    "Solve complex calculus problems",
+    "Write a research paper",
+    "Complete past exam papers",
+    "Analyze advanced literature",
+    "Prepare for university entrance",
+    "Solve physics numericals",
+    "Practice advanced chemistry problems",
+    "Develop a comprehensive study plan",
+    "Solve biology diagrams and labeling",
+    "Prepare for competitive exams"
+  ]
+};
 
 export default additionalTasks;

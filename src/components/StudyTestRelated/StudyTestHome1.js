@@ -27,15 +27,17 @@ const StudyTestHome1 = () => {
     if (selectedBatch && studentsData[selectedBatch]) {
       const batchStudents = studentsData[selectedBatch];
       setBatchStudents(batchStudents);
-      setPresentStudents(batchStudents.map(student => ({...student, present: true})));
+      setPresentStudents(
+        batchStudents.map((student) => ({ ...student, present: true }))
+      );
     }
   }, [selectedBatch]);
 
   // Function to select a random student who hasn't answered yet
   const selectRandomStudent = () => {
     const presentAndUnanswered = presentStudents
-      .filter(student => student.present)
-      .filter(student => !answeredStudents.some(s => s.id === student.id));
+      .filter((student) => student.present)
+      .filter((student) => !answeredStudents.some((s) => s.id === student.id));
 
     if (presentAndUnanswered.length === 0) {
       setCurrentStudent(null);
@@ -50,14 +52,24 @@ const StudyTestHome1 = () => {
   const selectRandomQuestions = () => {
     if (!selectedBatch || !questionsData[selectedBatch]) return;
     const batchQuestions = questionsData[selectedBatch];
-    const shuffledQuestions = [...batchQuestions].sort(() => 0.5 - Math.random());
+    const shuffledQuestions = [...batchQuestions].sort(
+      () => 0.5 - Math.random()
+    );
     setCurrentQuestions(shuffledQuestions.slice(0, 5));
   };
 
   // Randomly select additional tasks
   const assignRandomTasks = () => {
-    const shuffledTasks = [...additionalTasks].sort(() => 0.5 - Math.random());
-    return shuffledTasks.slice(0, 5);
+    //updated code
+    // In your StudyTestHome1 component, update the assignRandomTasks function:
+ 
+    const batchTasks = additionalTasks[selectedBatch] || [];
+      const shuffledTasks = [...batchTasks].sort(() => 0.5 - Math.random());
+      return shuffledTasks.slice(0, 5);
+
+    //last version code
+    // const shuffledTasks = [...additionalTasks].sort(() => 0.5 - Math.random());
+    //   return shuffledTasks.slice(0, 3);
   };
 
   // Handle time up for current student
@@ -83,10 +95,10 @@ const StudyTestHome1 = () => {
 
   // Toggle student attendance
   const toggleStudentAttendance = (studentId) => {
-    setPresentStudents(prev => 
-      prev.map(student => 
-        student.id === studentId 
-          ? {...student, present: !student.present} 
+    setPresentStudents((prev) =>
+      prev.map((student) =>
+        student.id === studentId
+          ? { ...student, present: !student.present }
           : student
       )
     );
@@ -94,7 +106,7 @@ const StudyTestHome1 = () => {
 
   // Handle session start after attendance confirmation
   const confirmAttendanceAndStart = () => {
-    if (presentStudents.filter(s => s.present).length === 0) {
+    if (presentStudents.filter((s) => s.present).length === 0) {
       alert("Please mark at least one student as present");
       return;
     }
@@ -105,10 +117,11 @@ const StudyTestHome1 = () => {
 
   // Filter out duplicate students
   const uniqueAnsweredStudents = answeredStudents.filter(
-    (student, index, self) => index === self.findIndex((s) => s.id === student.id)
+    (student, index, self) =>
+      index === self.findIndex((s) => s.id === student.id)
   );
 
-  const presentCount = presentStudents.filter(s => s.present).length;
+  const presentCount = presentStudents.filter((s) => s.present).length;
   const answeredCount = uniqueAnsweredStudents.length;
 
   return (
@@ -208,14 +221,17 @@ const StudyTestHome1 = () => {
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold mb-2">
-                  {selectedBatch} Batch ({presentCount}/{presentStudents.length} present)
+                  {selectedBatch} Batch ({presentCount}/{presentStudents.length}{" "}
+                  present)
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-96 overflow-y-auto">
                   {presentStudents.map((student) => (
-                    <div 
-                      key={student.id} 
+                    <div
+                      key={student.id}
                       className={`flex items-center p-2 border rounded cursor-pointer ${
-                        student.present ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+                        student.present
+                          ? "bg-green-50 border-green-200"
+                          : "bg-gray-50 border-gray-200"
                       }`}
                       onClick={() => toggleStudentAttendance(student.id)}
                     >
