@@ -7,7 +7,7 @@ const additionalTasks = {
   ],
   Ten: [
     "Class Ten Math exercises",
-    
+    "Class Ten Math exercises",
   ],
   // Add more batches as needed
   Hsc: [
