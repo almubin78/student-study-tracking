@@ -117,7 +117,7 @@ const HomePage = () => {
     (student, index, self) =>
       index === self.findIndex((s) => s.id === student.id)
   );
-
+//present and answers students count
   const presentCount = presentStudents.filter((s) => s.present).length;
   const answeredCount = uniqueAnsweredStudents.length;
 
