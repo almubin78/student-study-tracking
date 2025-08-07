@@ -100,11 +100,11 @@ const Root = () => {
             </li>
             <li className="flex items-start">
               <span className="text-blue-500 mr-2">•</span>
-              প্রশ্নের উত্তর দেওয়ার পর পরবর্তী প্রশ্নে যেতে পারবেন
+              প্রশ্নের উত্তর দেওয়ার পর পরবর্তী প্রশ্নে যেতে পারবে
             </li>
             <li className="flex items-start">
               <span className="text-blue-500 mr-2">•</span>
-              টেস্ট শেষে সম্পূর্ণ রিপোর্ট দেখতে পারবেন
+              টেস্ট শেষে সম্পূর্ণ রিপোর্ট দেখতে পারবে
             </li>
           </ul>
         </div>
